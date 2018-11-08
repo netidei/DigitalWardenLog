@@ -1,5 +1,4 @@
 # DigitalWardenLog
-Digital warden log
 
 Электронный журнал старосты.
 
