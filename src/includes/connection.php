@@ -33,7 +33,7 @@
     }
 
     protected function free () {
-      $this->data->free();
+      //$this->data->free();
     }
 
     protected function toShield ($connection, $data) {

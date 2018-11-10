@@ -1,6 +1,6 @@
 <?php
 
-  require_once('./includes/connection.php');
+  require_once(__DIR__ . '\\connection.php');
 
   class User {
 
@@ -22,6 +22,19 @@
       $values = array($name, $pass, $role);
       $db = new DB();
       return $db->insert('user', $columns, $values);
+    }
+
+    public static function getByID ($id) {
+      $db->select('user', 'username', "id = \"$id\"");
+      $user = $db->row();
+      if ($db->count() && $user[0]) {
+        return new User($user[0]);
+      }
+      return null;
+    }
+
+    public static function fromSession () {
+      return new User($_SESSION['username']);
     }
 
     private static function normalizeRole ($role) {
@@ -65,6 +78,14 @@
         return true;
       }
       return false;
+    }
+
+    public function startSession () {
+      session_start();
+      $_SESSION["loggedin"] = true;
+      $_SESSION["id"] = $this->id;
+      $_SESSION["username"] = $this->username;
+      $_SESSION["role"] = $this->role;
     }
 
     public function getID () {
