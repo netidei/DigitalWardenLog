@@ -1,12 +1,17 @@
 <?php
 
-  require_once('./template/page.php');
+  require_once('./includes/page.php');
   require_once('./includes/validator.php');
+  require_once('./components/formBuilder.php');
+
+  $page = new Page();
 
   if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
       header("location: index.php");
       exit;
   }
+
+  $page->init('Login page');
 
   $username = $password = "";
   $username_err = $password_err = "";
@@ -23,7 +28,7 @@
     }
     if (empty($username_err) && empty($password_err)) {
         // Prepare a select statement
-      $user = new User($username);
+      $user = new User($page->getDatabase(), $username);
       if ($user->validatePassword($password)) {
         $user->startSession();
         header("location: index.php");
@@ -33,11 +38,10 @@
     }
   }
 
-  $page = new Page('Login page');
-  $page->start();
-  $page->FormBuilder(array(
+  formBuilder(array(
     array('name' => 'username', 'label' => 'Имя', 'type' => 'text'),
     array('name' => 'password', 'label' => 'Пароль', 'type' => 'password'),
   ), 'Войти');
-  $page->end();
+  
+  $page->build();
 ?>
