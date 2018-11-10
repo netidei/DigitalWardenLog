@@ -7,40 +7,6 @@
     private const PASSWORD = '';
     private const DATABASE = 'digital_journal';
 
-    public static function connect () {
-      $result = mysqli_connect(self::HOST, self::USER, self::PASSWORD, self::DATABASE) or die("Error: " . mysqli_error($conn));;
-      return $result;
-    }
-
-    public static function disconnect ($connection) {
-      mysqli_close($connection);
-    }
-
-    public static function runQuery ($connection, $query) {
-      $data = mysqli_query($connection, $query) or die("Error: " . mysqli_error($connection));
-      return $data;
-    }
-
-    public static function freeData ($data) {
-      if ($data) {
-        //mysqli_free_result($data);
-      }
-    }
-
-    public static function rowCount ($data) {
-      if ($data) {
-        return mysqli_num_rows($data);
-      }
-      return 0;
-    }
-
-    public static function getRow ($data) {
-      if ($data) {
-        return $data->fetch_row();
-      }
-      return null;
-    }
-
     public static function dataToArray ($data) {
       $array = array();
       while ($row = self::getRow($data)) {
@@ -58,16 +24,16 @@
     protected $data = null;
 
     function __construct () {
-      $this->connection = self::connect();
+      $this->connection = mysqli_connect(self::HOST, self::USER, self::PASSWORD, self::DATABASE) or die("Error: " . mysqli_error($conn));
     }
 
     function __destruct () {
       $this->free();
-      self::disconnect($this->connection);
+      $this->connection->close();
     }
 
     protected function free () {
-      self::freeData($this->data);
+      $this->data->free();
     }
 
     protected function toShield ($connection, $data) {
@@ -75,17 +41,17 @@
     }
 
     public function run ($query) {
-      $this->free();
-      $this->data = self::runQuery($this->connection, $query);
+      $this->free();     
+      $this->data = $this->connection->query($query);
       return $this->data;
     }
 
     public function count () {
-      return self::rowCount($this->data);
+      return $this->data->num_rows;
     }
 
     public function row () {
-      return self::getRow($this->data);
+      return $this->data->fetch_row();
     }
 
     public function toArray () {
@@ -100,7 +66,7 @@
       return $this->toShield($this->connection, $_GET[$name]);
     }
 
-  }
+  }//oko
 
   class DB extends SQL {
 
