@@ -9,4 +9,4 @@
 ## Developers help
 
 * [Software standarts](/standarts/software.md)
-* [Codee standarts](/standarts/code.md)
+* [Code standarts](/standarts/code.md)
