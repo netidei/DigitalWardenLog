@@ -143,7 +143,7 @@ CREATE TABLE `digital_journal`.`groupp` ( `id` INT NOT NULL , `number` INT NOT N
 
 CREATE TABLE `digital_journal`.`student` ( `id` INT NOT NULL , `name` VARCHAR(180) NOT NULL , `group` INT NOT NULL , `ch_starost` BOOLEAN NOT NULL , PRIMARY KEY (`id`, `name`)) ENGINE = InnoDB;
 
-CREATE TABLE `digital_journal`.`userr` ( `id` INT NOT NULL , `username` VARCHAR(65) NOT NULL , `passwordd` VARCHAR(100) NOT NULL , `role` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `digital_journal`.`user` ( `id` INT NOT NULL , `username` VARCHAR(65) NOT NULL , `password` VARCHAR(100) NOT NULL , `role` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
 CREATE TABLE `digital_journal`.`record` ( `id` INT NOT NULL , `subject` INT NOT NULL , `call` INT NOT NULL , `date` DATE NOT NULL , `teacher` INT NOT NULL , `description` VARCHAR(255) NOT NULL , `prep_utv` BOOLEAN NOT NULL , `bylo` BOOLEAN NOT NULL , `reason` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
