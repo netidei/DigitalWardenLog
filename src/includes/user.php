@@ -8,11 +8,9 @@
     }
 
     public static function addUser ($db, $name, $password, $role) {
-      if (self::hasUser($name)) {
+      if (self::hasUser($db, $name)) {
         die("Error: username - $name is already taken.");
       }
-      echo $password;
-      echo gettype($password);
       $pass = password_hash($password, PASSWORD_DEFAULT);
       $role = self::normalizeRole($role);
       $columns = array('username', 'password', 'role');
@@ -24,7 +22,7 @@
       $db->select('user', 'username', "id = \"$id\"");
       $user = $db->row();
       if ($db->count() && $user[0]) {
-        return new User($user[0]);
+        return new User($db, $user[0]);
       }
       return null;
     }

@@ -11,7 +11,7 @@
       exit;
   }
 
-  $page->init('Login page');
+  $page->init('Login page', array("<a href=\"register.php\" class=\"btn btn-link\">Registration</a>"));
 
   $username = $password = "";
   $username_err = $password_err = "";
@@ -37,8 +37,11 @@
       }
     }
   }
+?>
+<h1>Log in</h1>
+<?php
 
-  formBuilder(array(
+  FormBuilder(array(
     array('name' => 'username', 'label' => 'Имя', 'type' => 'text'),
     array('name' => 'password', 'label' => 'Пароль', 'type' => 'password'),
   ), 'Войти');

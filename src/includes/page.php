@@ -20,6 +20,9 @@
       $this->database = new DB();
       session_start();
       $pos = strpos($_SERVER['REQUEST_URI'], '/login.php');
+      if ($pos === false) {
+        $pos = strpos($_SERVER['REQUEST_URI'], '/register.php');
+      }
       if ((!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) && ($pos === false)) {
         header("location: login.php");
         exit;
