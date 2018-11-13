@@ -2,6 +2,7 @@
 
   require_once(__DIR__ . '\\connection.php');
   require_once(__DIR__ . '\\user.php');
+  require_once(__DIR__ . '\\..\\components\\button\\link.php');
 
   class Page {
 
@@ -10,6 +11,13 @@
         foreach ($list as $item) {
           echo $item;
         }
+      }
+    }
+
+    public static function showMenu ($menuItems) {
+      if ($menuItems && count($menuItems) > 0) {
+        foreach ($menuItems as $text=>$link);
+          LinkButton($text, $link);
       }
     }
 

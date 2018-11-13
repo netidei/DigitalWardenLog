@@ -11,7 +11,7 @@
       exit;
   }
 
-  $page->init('Login page', array("<a href=\"register.php\" class=\"btn btn-link\">Registration</a>"));
+  $page->init('Login page', array('Registration'=>'register.php'));
 
   $username = $password = "";
   $username_err = $password_err = "";
