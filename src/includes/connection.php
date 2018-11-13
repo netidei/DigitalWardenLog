@@ -135,7 +135,7 @@
   }
   
   /*
-  CREATE DATABASE 'digital_journal';
+  CREATE DATABASE `digital_journal`;
 
 CREATE TABLE `digital_journal`.`ch_stud` ( `id` INT NOT NULL , `record` INT NOT NULL , `student` INT NOT NULL , `mark` BOOLEAN NOT NULL , `reason` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
