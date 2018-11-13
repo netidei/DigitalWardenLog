@@ -1,6 +1,6 @@
 <?php
   require_once('./includes/page.php');
-  require_once('./includes/timelineItem.php');
+  require_once('./components/timelineItem.php');
   
   $page = new Page();
   $page->init('Main page');
