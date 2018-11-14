@@ -8,5 +8,5 @@
 
 ## Developers help
 
-* [Software standarts](/standarts/software.md)
-* [Code standarts](/standarts/code.md)
+* [Software standards](/standards/software.md)
+* [Code standards](/standards/code.md)
