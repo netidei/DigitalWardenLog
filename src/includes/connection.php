@@ -1,5 +1,27 @@
 <?php
 
+  class QueryResult {
+
+    private $data;
+
+    function __construct ($query) {
+      $this->data = $query;
+    }
+
+    public function count () {
+      return $this->data->num_rows;
+    }
+
+    public function row () {
+      return $this->data->fetch_row();
+    }
+
+    public function toArray () {
+      return SQL::dataToArray($this->data);
+    }
+
+  }
+
   class SQL {
 
     private const HOST = 'localhost';
@@ -21,23 +43,21 @@
     }
 
     protected $connection;
-    protected $data = null;
 
     function __construct () {
-      $connection = mysqli_connect(self::HOST, self::USER, self::PASSWORD) or die("Error: " . mysqli_error($connection));
+      $host = self::HOST;
+      $user = self::USER;
+      $password = self::PASSWORD;
       $dbName = self::DATABASE;
+      $connection = mysqli_connect($host, $user, $password) or die("Error: " . mysqli_error($connection));
       @include_once(__DIR__ . '\\init.php');
+      $connection->set_charset("utf8");
       $connection->select_db($dbName);
       $this->connection = $connection;
     }
 
     function __destruct () {
-      $this->free();
       $this->connection->close();
-    }
-
-    protected function free () {
-      //$this->data->free();
     }
 
     protected function toShield ($connection, $data) {
@@ -45,21 +65,8 @@
     }
 
     public function run ($query) {
-      $this->free();
-      $this->data = $this->connection->query($query);
-      return $this->data;
-    }
-
-    public function count () {
-      return $this->data->num_rows;
-    }
-
-    public function row () {
-      return $this->data->fetch_row();
-    }
-
-    public function toArray () {
-      return self::dataToArray($this->data);
+      $data = $this->connection->query($query);
+      return new QueryResult($data);
     }
 
     public function fromPOST ($name) {
@@ -100,17 +107,20 @@
         }
     }
 
-    public function select ($table, $columns, $condition = null) {
-      $query = "SELECT " . self::getColumns($columns) . " FROM $table";
+    public function select ($table, $columns, $condition = null, $append = null) {
+      $query = "SELECT " . self::getColumns($columns) . " FROM `$table`";
       if ($condition) {
         $query .= " WHERE $condition";
+      }
+      if ($append) {
+        $query .= $append;
       }
       $query .= ';';
       return parent::run($query);
     }
 
     public function insert ($table, $columns = null, $values) {
-      $query = "INSERT INTO $table ";
+      $query = "INSERT INTO `$table` ";
       if ($columns) {
         $query .= "(" . self::getColumns($columns) . ") ";
       }
@@ -119,7 +129,7 @@
     }
 
     public function update ($table, $set, $condition = null) {
-      $query = "UPDATE $table SET $set";
+      $query = "UPDATE `$table` SET $set";
       if ($condition) {
         $query .= " WHERE $condition";
       }
@@ -128,7 +138,7 @@
     }
 
     public function delete ($table, $condition = null) {
-      $query = "DELETE FROM $table";
+      $query = "DELETE FROM `$table`";
       if ($condition) {
         $query .= " WHERE $condition";
       }

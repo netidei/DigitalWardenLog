@@ -3,8 +3,8 @@
   class User {
 
     public static function hasUser ($db, $name) {
-      $db->select('user', 'id', "username = \"$name\"");
-      return $db->count() === 1;
+      $data = $db->select('user', 'id', "username = \"$name\"");
+      return $data->count() === 1;
     }
 
     public static function addUser ($db, $name, $password, $role) {
@@ -19,9 +19,9 @@
     }
 
     public static function getByID ($db, $id) {
-      $db->select('user', 'username', "id = \"$id\"");
-      $user = $db->row();
-      if ($db->count() && $user[0]) {
+      $data = $db->select('user', 'username', "id = \"$id\"");
+      if ($db->count() === 1) {
+        $user = $data->row();
         return new User($db, $user[0]);
       }
       return null;
@@ -54,9 +54,9 @@
     private $role;
 
     function __construct ($db, $name) {
-      $db->select('user', '*', "username = \"$name\"");
-      $user = $db->row();
-      if ($db->count()) {
+      $data = $db->select('user', '*', "username = \"$name\"");
+      if ($data->count() === 1) {
+        $user = $data->row();
         $this->id = $user[0];
         $this->username = $user[1];
         $this->hash = $user[2];

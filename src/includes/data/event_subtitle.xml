@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rows>
+  <row event="1" subtitle="<a>UseCase</a>: Анализ вариантов использования" />
+  <row event="1" subtitle="<a>Product backlog</a>: Список требований к функциональности продукта" />
+  <row event="1" subtitle="<a>ERD</a>: Схема базы данных" />
+  <row event="1" subtitle="Система авторизации" />
+  <row event="2" subtitle="<a>Страница старосты</a>: регистрация записи о проведенном занятии" />
+  <row event="2" subtitle="<a>Страница директрата</a>: добавлении нового пользователя" />
+  <row event="2" subtitle="Создание базы данных" />
+  <row event="2" subtitle="Система шаблонов" />
+  <row event="3" subtitle="<a>Стандарты</a>: инструкции и ссылки к используемому обеспечения" />
+  <row event="3" subtitle="Закрепление алгоритма равзорачивания среды разработки" />
+  <row event="3" subtitle="Пример создания компонента TimelineItem" />
+</rows>
