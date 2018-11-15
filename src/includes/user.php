@@ -62,6 +62,7 @@
         $this->hash = $user[2];
         $this->role = $user[3];
       } else {
+        session_destroy();
         die("Error: cannot find the user with this username - $name");
       }
     }
