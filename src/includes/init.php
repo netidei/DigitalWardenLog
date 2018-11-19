@@ -25,10 +25,10 @@
   // Load data
   $tables = array('user', 'roadmap_event', 'event_subtitle');
   foreach ($tables as $table) {
-    $path = realpath(__DIR__ . "/data/$table.xml");
+    $path = quotemeta(realpath(__DIR__ . "/data/$table.xml"));
     $query = "LOAD XML LOCAL INFILE '$path' INTO TABLE `$dbName`.`$table`;";
     $err = $connection->query($query) or die("Error on query: $query");
   }
   // Delete this script
-  unlink(__DIR__ . '\\init.php');
+  unlink(realpath(__DIR__ . '/init.php'));
 ?>
