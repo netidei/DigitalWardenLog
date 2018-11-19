@@ -50,7 +50,7 @@
       $password = self::PASSWORD;
       $dbName = self::DATABASE;
       $connection = mysqli_connect($host, $user, $password) or die("Error: " . mysqli_error($connection));
-      @include_once(__DIR__ . '\\init.php');
+      @include_once(realpath(__DIR__ . '/init.php'));
       $connection->set_charset("utf8");
       $connection->select_db($dbName);
       $this->connection = $connection;

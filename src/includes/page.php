@@ -1,8 +1,8 @@
 <?php
 
-  require_once(__DIR__ . '\\connection.php');
-  require_once(__DIR__ . '\\user.php');
-  require_once(__DIR__ . '\\..\\components\\button\\link.php');
+  require_once(realpath(__DIR__ . '/connection.php'));
+  require_once(realpath(__DIR__ . '/user.php'));
+  require_once(realpath(__DIR__ . '/../components/button/link.php'));
 
   class Page {
 
@@ -49,11 +49,11 @@
 
     public function init ($title, $menuItems = null, $menuSections = null) {
       $username = $this->user ? $this->user->getUsername() : null;
-      require(__DIR__ . '\\page\\header.php');
+      require(realpath(__DIR__ . '/page/header.php'));
     }
 
     public function build ($footer = null) {
-      require(__DIR__ . '\\page\\footer.php');
+      require(realpath(__DIR__ . '/page/footer.php'));
     }
 
   }

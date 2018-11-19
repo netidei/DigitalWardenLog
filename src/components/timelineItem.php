@@ -1,5 +1,5 @@
 <?php
-  require_once(__DIR__ . '\\tile.php');
+  require_once(realpath(__DIR__ . '/tile.php'));
 
   function TimelineItem ($icon, $title, $items) { ?>
     <div class="timeline-item">

@@ -1,7 +1,7 @@
 <?php
 
-  require_once('./components/formBuilder.php');
-  require_once('./includes/page.php');
+  require_once(realpath('./components/formBuilder.php'));
+  require_once(realpath('./includes/page.php'));
   $page = new Page();
   $username = $password = "";
   $role = null;
