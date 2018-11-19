@@ -1,6 +1,6 @@
 <?php
-  require_once('./includes/page.php');
-  require_once('./components/timeline.php');
+  require_once(realpath('./includes/page.php'));
+  require_once(realpath('./components/timeline.php'));
   
   $page = new Page();
   $page->init('Main page');
