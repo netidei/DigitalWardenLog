@@ -1,5 +1,5 @@
 <?php
-  require(realpath(__DIR__ . '/timelineItem.php'));
+  require_once(realpath(__DIR__ . '/timelineItem.php'));
 
   function Timeline($db) {
     $events = $db->select('roadmap_event', '*', null, 'ORDER BY `date` DESC');
