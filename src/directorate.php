@@ -1,6 +1,6 @@
 <?php
-  require_once('./includes/validator.php');
-  require_once('./includes/user.php');
+  require_once(realpath('./includes/validator.php'));
+  require_once(realpath('./includes/user.php'));
   // TODO: Add some methods to Validator class to reduce this code
   $username = $password = "";
   $username_err = $password_err = "";
@@ -42,28 +42,28 @@
 </head>
 <body>
     <div class="wrapper">
-        <h2 align="center">Добавление нового пользователя</h2>
+        <h2 align="center">пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</h2>
         <form method="POST">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                <label>Логин</label>
+                <label>пїЅпїЅпїЅпїЅпїЅ</label>
                 <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
                 <span class="help-block"><?php echo $username_err; ?></span>
             </div>    
             <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                <label>Пароль</label>
+                <label>пїЅпїЅпїЅпїЅпїЅпїЅ</label>
                 <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
                 <span class="help-block"><?php echo $password_err; ?></span>
             </div>
             <div class="form-group">
               <select name="role">
-                <option value="1">Директорат</option>
-                <option value="2">Преподаватель</option>
-                <option value="3">Староста</option>
+                <option value="1">пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</option>
+                <option value="2">пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</option>
+                <option value="3">пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</option>
               </select>
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Добавить">
-                <input type="reset" class="btn btn-default" value="Сбросить">
+                <input type="submit" class="btn btn-primary" value="пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ">
+                <input type="reset" class="btn btn-default" value="пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ">
             </div>
         </form>
     </div>    

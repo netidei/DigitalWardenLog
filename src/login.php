@@ -1,8 +1,8 @@
 <?php
 
-  require_once('./includes/page.php');
-  require_once('./includes/validator.php');
-  require_once('./components/formBuilder.php');
+  require_once(realpath('./includes/page.php'));
+  require_once(realpath('./includes/validator.php'));
+  require_once(realpath('./components/formBuilder.php'));
 
   $page = new Page();
 
