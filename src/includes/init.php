@@ -20,15 +20,14 @@
     'CREATE TABLE `event_subtitle` ( `id` INT NOT NULL AUTO_INCREMENT, `event` INT NOT NULL , `subtitle` VARCHAR(256) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;'
   );
   foreach ($commands as $command) {
-    $connection->query($command) or die("Error on query: $command");
+      $connection->query($command) or die("Error on query: $command");
   }
   // Load data
-  $tables = array('user', 'roadmap_event', 'event_subtitle');
-  foreach ($tables as $table) {
-    $path = quotemeta(realpath(__DIR__ . "/data/$table.xml"));
-    $query = "LOAD XML LOCAL INFILE '$path' INTO TABLE `$dbName`.`$table`;";
-    $err = $connection->query($query) or die("Error on query: $query");
-  }
+    $tables = array('user', 'roadmap_event', 'event_subtitle');
+    foreach ($tables as $table) {
+        $path = quotemeta(realpath(__DIR__ . "/data/$table.xml"));
+        $query = "LOAD XML LOCAL INFILE '$path' INTO TABLE `$dbName`.`$table`;";
+        $err = $connection->query($query) or die("Error on query: $query");
+    }
   // Delete this script
-  unlink(realpath(__DIR__ . '/init.php'));
-?>
+    unlink(realpath(__DIR__ . '/init.php'));

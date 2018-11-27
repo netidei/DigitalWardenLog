@@ -9,16 +9,4 @@
 </head>
 <body>
   <div class="container">
-    <header class="navbar">
-        <section class="navbar-section">
-          <a href="index.php" class="navbar-brand text-bold mr-2">Digital Journal</a>
-          <?php Page::showMenu($menuItems); ?>
-        </section>
-        <?php Page::printList($menuSections); ?>
-        <?php if ($username) { ?>
-          <section class="navbar-section">
-            <a href="/" class="text-bold"><?php echo $username ?></a>
-            <a href="logout.php" class="btn btn-link">Выход</a>
-          </section>
-        <?php } ?>
-    </header>
+    <?php $navbar->build(); 

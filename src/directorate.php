@@ -5,22 +5,22 @@
   $username = $password = "";
   $username_err = $password_err = "";
   $role = null;
-  if($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(Validator::isEmpty($_POST["username"])) {
-      $username_err = "Please enter a username.";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (Validator::isEmpty($_POST["username"])) {
+        $username_err = "Please enter a username.";
     } else {
-      $username = trim($_POST["username"]);
+        $username = trim($_POST["username"]);
     }
-    if(Validator::isEmpty($_POST["password"])) {
-      $password_err = "Please enter a password.";
+    if (Validator::isEmpty($_POST["password"])) {
+        $password_err = "Please enter a password.";
     } else {
-      $password = trim($_POST["password"]);
+        $password = trim($_POST["password"]);
     }
     $role = trim($_POST["role"]);
-    if(empty($username_err) && empty($password_err)) {
-      User::addUser($username, $password, $role);
+    if (empty($username_err) && empty($password_err)) {
+        User::addUser($username, $password, $role);
     }
-  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -32,12 +32,12 @@
     <style type="text/css">
         body{ font: 14px sans-serif; }
         .wrapper{ 
-			width: 30%; 
-			max-width: 400px;
-			padding: 20px; 
-			position: relative; 
-			margin: 30%;}
-		
+            width: 30%; 
+            max-width: 400px;
+            padding: 20px; 
+            position: relative; 
+            margin: 30%;}
+        
     </style>
 </head>
 <body>
