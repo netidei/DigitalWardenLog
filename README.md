@@ -10,3 +10,4 @@
 
 * [Software standards](/standards/software.md)
 * [Code standards](/standards/code.md)
+* [Organization standards](/standards/organizarion.md)
