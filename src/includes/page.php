@@ -39,12 +39,17 @@ class Page
 
     public function init($title, ...$menuItems)
     {
-        $logo = new ButtonLink('index.php', 'Digital Journal');
-        $logo->addClasses('text-bold');
-        $navbar = new Navbar(new NavbarSection($logo, ...$menuItems));
+        $logo = array(new ButtonLink(array('href'=>'index.php', 'content'=>'Digital Journal', 'class'=>'text-bold')));
+        if (count($menuItems) > 0) {
+            array_push($logo, $menuItems);
+        }
+        $menu = new NavbarSection(array('content'=>$logo));
+        $navbar = new Navbar(array('content'=>$menu));
         $username = $this->user ? $this->user->getUsername() : null;
         if ($username) {
-            $navbar->addSections(new NavbarSection(new DefaultLink('index.php', $username), new PrimaryLink('logout.php', 'Exit')));
+            $user = new DefaultLink(array('href'=>'index.php', 'content'=>$username));
+            $exit = new PrimaryLink(array('href'=>'logout.php', 'content'=>'Exit'));
+            $navbar->addSections(new NavbarSection(array('content'=>array($user, $exit))));
         }
         include realpath(__DIR__ . '/page/header.php');
     }

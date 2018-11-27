@@ -5,23 +5,12 @@ require_once realpath(__DIR__ . '/component.php');
 class Input extends Component
 {
 
-    protected function render($properties)
+    private const ATTRS = array('value', 'checked', 'disabled', 'min', 'max', 'type', 'pattern', 'readonly');
+
+    protected function render($parameters)
     {
         ?>
-    <input <?php
-    foreach ($properties as $name=>$value)
-      {
-        switch ($name)
-        {
-        case 'class':
-            $this->addClasses($value);
-            break;
-        default:
-            echo $property . '="' . $value . '" ';
-        }
-    }
-      $this->classes(); ?> />
+        <input <?php  $this->data($parameters, self::ATTRS); ?> />
         <?php
     }
-
 }

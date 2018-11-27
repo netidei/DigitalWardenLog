@@ -6,11 +6,11 @@ require_once realpath(__DIR__ . '/timelineItem.php');
 class Timeline extends Component
 {
 
-    protected function render($components)
+    protected function render($parameters)
     {
         $icon = null;
-        foreach ($components as $component)
-        {
+        $components = $parameters['items'];
+        foreach ($components as $component) {
             if ($component instanceof TimelineItem) {
                 $component->setIcon($icon);
             }
@@ -20,5 +20,4 @@ class Timeline extends Component
             }
         }
     }
-  
 }

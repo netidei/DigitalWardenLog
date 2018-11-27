@@ -3,25 +3,53 @@
 abstract class Component
 {
 
-    private $data;
-    private $classes = array();
+    private const FILTER = array('id', 'name', 'onClick');
 
-    protected static function print($elements, ...$data)
+    protected $parameters;
+    private $classes = array();
+    private $attributes = array();
+
+    private static function write($element, $parameters = null)
     {
-        foreach ($elements as $element)
-        {
-            if ($element instanceof Component) {
-                $element->build(...$data);
-            }
-            elseif (gettype($element) == 'string') {
-                echo($element);
+        if ($element instanceof Component) {
+            $element->build($parameters);
+        } elseif (gettype($element) == 'string') {
+            echo($element);
+        }
+    }
+
+    private static function filterAttributes($attributes, $filter)
+    {
+        return array_filter(
+            $attributes,
+            function ($key) use ($filter) {
+                return in_array($key, $filter);
+            },
+            ARRAY_FILTER_USE_KEY
+        );
+    }
+
+    protected static function print($data = null, $parameters = null)
+    {
+        if ($data) {
+            if (gettype($data) === 'array') {
+                foreach ($data as $element) {
+                    self::write($element, $parameters);
+                }
+            } else {
+                self::write($data, $parameters);
             }
         }
     }
 
-    public function __construct(...$data)
+    public function __construct($parameters)
     {
-        $this->data = $data;
+        if (gettype($parameters) !== 'array') {
+            print_r($parameters);
+            echo('<br>');
+            die('Parameters of component is not an associative array!');
+        }
+        $this->parameters = $parameters;
     }
 
     public function classes(...$classes)
@@ -33,12 +61,45 @@ abstract class Component
 
     public function addClasses(...$classes)
     {
-        array_push($this->classes, ...$classes);
+        $this->classes = array_merge($this->classes, $classes);
     }
 
-    public function build(...$userData)
+    public function attributes($attributes, $filter = null)
     {
-        $this->render(...$this->data, ...$userData);
+        $flt = self::FILTER;
+        if ($filter) {
+            $flt = array_combine($flt, $filter);
+        }
+        $attributes = self::filterAttributes($attributes, $flt);
+        $data = array_combine($this->attributes, $attributes);
+        $atts = ' ';
+        foreach ($data as $key => $val) {
+            $atts .= $key . '="' . $val . '" ';
+        }
+        echo($atts);
     }
 
+    public function data($parameters, $filter = null)
+    {
+        $className = '';
+        if (in_array('class', $parameters)) {
+            $className = $parameters['class'];
+        }
+        $this->classes($className);
+        $this->attributes($parameters, $filter);
+    }
+
+    public function addAttributes($attributes, $filter = null)
+    {
+        if ($filter) {
+            $attributes = self::filterAttributes($attributes, $filter);
+        }
+        $this->attributes = array_combine($this->attributes, $attributes);
+    }
+
+    public function build($parameters = array())
+    {
+        $data = array_merge($this->parameters, $parameters);
+        $this->render($data);
+    }
 }

@@ -5,19 +5,22 @@ require_once realpath(__DIR__ . '/component.php');
 class DefaultLink extends Component
 {
 
-    public function __construct(...$data)
+    private const ATTRS = array('href');
+
+    public function __construct($data)
     {
-        parent::__construct(...$data);
+        parent::__construct($data);
         $this->addClasses('btn');
     }
 
-    protected function render($link, ...$content)
+    protected function render($parameters)
     {
         ?>
-    <a <?php $this->classes(); ?> href="<?php echo $link ?>"><?php $this->print($content); ?></a>
+        <a <?php $this->data($parameters, self::ATTRS); ?>>
+            <?php $this->print($parameters['content']); ?>
+        </a>
         <?php
     }
-
 }
 
 class ButtonLink extends DefaultLink
@@ -28,7 +31,6 @@ class ButtonLink extends DefaultLink
         parent::__construct(...$data);
         $this->addClasses('btn-link');
     }
-
 }
 
 class PrimaryLink extends DefaultLink
@@ -39,5 +41,4 @@ class PrimaryLink extends DefaultLink
         parent::__construct(...$data);
         $this->addClasses('btn-primary');
     }
-
 }

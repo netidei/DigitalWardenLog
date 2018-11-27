@@ -5,12 +5,11 @@ require_once realpath(__DIR__ . '/component.php');
 class FormBuilder extends Component
 {
 
-    protected function render($for, ...$content)
+    protected function render($parameters)
     {
         ?>
-    <form method="POST" class="<?php $this->classes(); ?>">
-    </form>
+        <form method="POST" <?php $this->data($parameters); ?>>
+        </form>
         <?php
     }
-
 }

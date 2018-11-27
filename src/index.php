@@ -23,16 +23,17 @@ while ($event = $eventsData->row()) {
         array_push($subtitles, $subtitle[0]);
     }
     // Add Event
-    array_push($events, new TimelineItem(new Tile($title, $subtitles)));
+    $tile = new Tile(array('title'=>$title, 'subtitles'=>$subtitles));
+    array_push($events, new TimelineItem(array('content'=>$tile)));
 }
-  $timeline = new Timeline($events);
+  $timeline = new Timeline(array('items'=>$events));
 
 ?>
 
 <h1>Roadmap</h1>
 
 <div class="timeline">
-    <?php $timeline->build() ?>
+    <?php $timeline->build(); ?>
 </div>
 
 <?php $page->build();

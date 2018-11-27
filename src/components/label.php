@@ -5,14 +5,14 @@ require_once realpath(__DIR__ . '/component.php');
 class Label extends Component
 {
 
-    protected function render($for, ...$content)
+    private const ATTRS = array('for');
+
+    protected function render($parameters)
     {
         ?>
-    <label <?php if ($for) { echo 'for="' . $for . '" '; 
-   } $this->classes(); ?> >
-        <?php $this->print($content); ?>
-    </label>
+        <label <?php $this->data($parameters, self::ATTRS); ?> >
+            <?php $this->print($parameters['content']); ?>
+        </label>
         <?php
     }
-
 }
