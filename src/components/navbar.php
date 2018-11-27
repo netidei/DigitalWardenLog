@@ -2,21 +2,19 @@
 
 require_once(realpath(__DIR__ . '/component.php'));
 
-class Navbar extends Component
-{
-    private $sections = array();
+class Navbar extends Component {
 
-    protected function render(...$sections)
-    {
-        ?>
-      <header class="navbar">
-        <?php $this::print($sections, ...$this->sections); ?>
-      </header>
-        <?php
-    }
+  private $sections = array();
 
-    public function addSections(...$sections)
-    {
-        array_push($this->sections, ...$sections);
-    }
+  protected function render (...$sections) { ?>
+    <header class="navbar">
+      <?php $this::print(array_merge($sections, $this->sections)); ?>
+    </header>
+    <?php
+  }
+
+  public function addSections (...$sections) {
+    array_push($this->sections, ...$sections);
+  }
+
 }
