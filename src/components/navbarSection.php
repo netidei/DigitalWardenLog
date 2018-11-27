@@ -20,4 +20,3 @@ class NavbarSection extends Component
         <?php
     }
 }
-

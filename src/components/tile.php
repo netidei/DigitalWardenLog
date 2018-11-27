@@ -18,4 +18,3 @@ class Tile extends Component
         <?php
     }
 }
-

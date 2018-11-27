@@ -45,8 +45,8 @@ FormBuilder(
     array(
     array('name' => 'username', 'label' => 'Имя', 'type' => 'text'),
     array('name' => 'password', 'label' => 'Пароль', 'type' => 'password'),
-    ), 'Войти'
+    ),
+    'Войти'
 );
   
   $page->build();
-    

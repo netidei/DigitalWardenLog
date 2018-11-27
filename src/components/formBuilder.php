@@ -16,7 +16,7 @@
                   ?>
                 <option value="<?php echo $value ?>"><?php echo $text ?></option>
                 <?php
-                } ?>
+              } ?>
               </select>
                 <?php break;
             default: ?>
@@ -26,8 +26,8 @@
           
         </div>
       <?php
-      } ?>
+    } ?>
       <input type="submit" class="btn btn-primary" value="<?php echo $submit ?>" />
     </form>
 <?php
-} 
+}

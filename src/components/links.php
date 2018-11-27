@@ -29,5 +29,3 @@ class PrimaryLink extends DefaultLink
         $this->addClasses('btn-primary');
     }
 }
-
-

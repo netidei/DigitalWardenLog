@@ -9,4 +9,4 @@
 </head>
 <body>
   <div class="container">
-    <?php $navbar->build(); 
+    <?php $navbar->build();

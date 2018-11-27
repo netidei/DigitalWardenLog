@@ -35,4 +35,3 @@ class TimelineItem extends Component
         $this->icon = $icon;
     }
 }
-

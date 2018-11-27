@@ -1,6 +1,6 @@
 <?php
 
-require_once(realpath('./includes/page.php'));
+  require_once(realpath('./includes/page.php'));
   require_once(realpath('./components/tile.php'));
   require_once(realpath('./components/timelineItem.php'));
   require_once(realpath('./components/timeline.php'));

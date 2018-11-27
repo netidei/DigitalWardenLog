@@ -20,4 +20,3 @@ class Navbar extends Component
         array_push($this->sections, ...$sections);
     }
 }
-
