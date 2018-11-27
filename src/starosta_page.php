@@ -1,29 +1,19 @@
-<!DOCTYPE html>
-<html>
-  <head>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>Добавление предмета</title>
-    <style type="text/css">
-        body{ font: 14px sans-serif; }
-        .wrapper{ 
-      width: 60%;      
-      padding: 20px; 
-      position: relative; 
-      margin: 5%;}
-    
-    </style>
-  </head>
-  <body>
-  <div class="wrapper">
-  <form>
-  <div class="form-row">
-    <div class="col-md-2 mb-3">
-      <label for="validationDefault01">Дата</label>
-      <input type="date" class="form-control" id="validationDefault01"  required>
+<?php
+  require_once(realpath('./includes/page.php'));
+  require_once(realpath('./components/timeline.php'));
+  
+  $page = new Page();
+  $page->init('Main page');
+  $page->getDatebase();
+?>
+  <div class="columns">
+    <div class="column col-3">
+      <label class="form-label" for="validationDefault01">Дата</label>
+      <input type="date" class="form-input" id="validationDefault01"  required>
     </div>
-    <div class="col-md-2 mb-3">
-      <label for="validationDefault02">Номер пары</label>
-      <select name="date" class="form-control" required> <!--Supplement an id here instead of using 'name'-->
+    <div class="column col-1">
+      <label class="form-label"  for="validationDefault02">№ пары</label>
+      <select name="date" class="form-select form-input" required> <!--Supplement an id here instead of using 'name'-->
         <option disabled value="" selected="">Выбрать..</option> 
         <option value="value1">1</option> 
         <option value="value2">2</option>
@@ -34,36 +24,36 @@
         <option value="value7">7</option>
     </select> 
     </div>
-    <div class="col-md-5 mb-3">
-      <label for="validationDefaultUsername">Предмет</label>
-      <select name="subject" class="form-control" required> <!--Supplement an id here instead of using 'name'-->
+    <div class="column col-5">
+      <label class="form-label"  for="validationDefaultUsername">Предмет</label>
+      <select name="subject" class="form-select form-input" required> <!--Supplement an id here instead of using 'name'-->
         <option disabled value="" selected="">Выбрать..</option> 
         <option value="value1">Проетирование информационных систем</option> 
         <option value="value2">Психология и педагогика</option>
       </select>
     </div>
-    <div class="col-md-3 mb-3">
-      <label for="validationDefaultUsername">Преподаватель</label>
-      <select name="subject" class="form-control" required> <!--Supplement an id here instead of using 'name'-->
+    <div class="column col-3">
+      <label class="form-label"  for="validationDefaultUsername">Преподаватель</label>
+      <select name="subject" class="form-select form-input" required> <!--Supplement an id here instead of using 'name'-->
       <option disabled value="" selected="">Выбрать..</option> 
         <option value="value1">Ермоленко А.В.</option> 
         <option value="value2">Бабенко В.В.</option>
     </select>
   </div>
   </div>
-  <div class="form-row">
-    <div class="col-md-2 mb-3">
-      <label for="validationDefaultUsername">Тип пары</label>
-      <select name="subject" class="form-control" required> <!--Supplement an id here instead of using 'name'-->
+  <div class="columns">
+    <div class="column col-2">
+      <label class="form-label"  for="validationDefaultUsername">Тип пары</label>
+      <select name="subject" class="form-select form-input" required> <!--Supplement an id here instead of using 'name'-->
       <option disabled value="" selected="">Выбрать..</option> 
         <option value="value1">Лекция</option> 
         <option value="value2">Практика</option>
         <option value="value3">Лабораторная</option>
     </select>
   </div>
-    <div class="col-md-10 mb-3">
-      <label for="validationDefault04">Тема</label>
-      <input type="text" class="form-control" id="validationDefault04"  required>
+    <div class="column col-10">
+      <label class="form-label"  for="validationDefault04">Тема</label>
+      <input type="text" class="form-input" id="validationDefault04"  required>
     </div>
   </div>
   <div class="form-group">
@@ -81,7 +71,7 @@
           <th width="100" scope="row">1</th>
           <td>Иван Иванов</td>
           <td><input type="checkbox" checked onclick="if(this.checked){this.nextSibling.style.display='none' }else {this.nextSibling.style.display='';  this.nextSibling.value='';}"><select  style="display: none"> 
-            <option value="" disabled selected="">Прчина отсутсвия</option> 
+            <option value="" disabled selected="">Причина отсутсвия</option> 
               <option value="value1">Уважительная</option> 
               <option value="value2">Неуважительная</option>
           </select></td>
@@ -91,7 +81,7 @@
           <th width="100" scope="row">2</th>
           <td>Петр Петров</td>
           <td width="250"><input type="checkbox" checked onclick="if(this.checked){this.nextSibling.style.display='none' }else {this.nextSibling.style.display='';  this.nextSibling.value='';}"><select style="display: none"> 
-            <option value="" disabled selected="">Прчина отсутсвия</option> 
+            <option value="" disabled selected="">Причина отсутсвия</option> 
               <option value="value1">Уважительная</option> 
               <option value="value2">Неуважительная</option>
           </select></td>
@@ -104,10 +94,5 @@
     <a href="javascript:close_window();"  id="cancel" name="cancel" class="btn btn-default">Отмена</a>
   <button class="btn btn-primary" type="submit">Добавить</button>
   </div>
-</form>
-</div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-  </body>
-</html>
+  </div>
+<?php $page->build(); ?>
