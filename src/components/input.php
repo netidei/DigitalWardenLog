@@ -1,23 +1,27 @@
 <?php
 
-require_once(realpath(__DIR__ . '/component.php'));
+require_once realpath(__DIR__ . '/component.php');
 
-class Input extends Component {
+class Input extends Component
+{
 
-  protected function render ($properties) {
-?>
+    protected function render($properties)
+    {
+        ?>
     <input <?php
-      foreach ($properties as $name=>$value) {
-        switch ($name) {
+    foreach ($properties as $name=>$value)
+      {
+        switch ($name)
+        {
         case 'class':
-          $this->addClasses($value);
-          break;
+            $this->addClasses($value);
+            break;
         default:
-          echo $property . '="' . $value . '" ';
+            echo $property . '="' . $value . '" ';
         }
-      }
-    $this->classes(); ?> />
-<?php
-  }
+    }
+      $this->classes(); ?> />
+        <?php
+    }
 
 }

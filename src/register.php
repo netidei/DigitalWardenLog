@@ -1,12 +1,12 @@
 <?php
 
-  require_once(realpath('./components/formBuilder.php'));
-  require_once(realpath('./includes/page.php'));
+  require_once realpath('./components/formBuilder.php');
+  require_once realpath('./includes/page.php');
   $page = new Page();
   $username = $password = "";
   $role = null;
 
-  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST["username"]);
     $password = trim($_POST["password"]);
     $role = trim($_POST["role"]);
@@ -14,7 +14,7 @@
         User::addUser($page->getDatabase(), $username, $password, $role);
         header("location: login.php");
     }
-  }
+}
 
   $page->init('Registration');
 
@@ -22,7 +22,7 @@
 <h1>Registration</h1>
 <?php
 
-  FormBuilder(
+FormBuilder(
     array(
     array('name' => 'username', 'label' => 'Имя', 'type' => 'text'),
     array('name' => 'password', 'label' => 'Пароль', 'type' => 'password'),
@@ -31,6 +31,6 @@
     )),
     ),
     'Зарегистрировать'
-  );
+);
 
   $page->build();

@@ -1,20 +1,24 @@
 <?php
 
-require_once(realpath(__DIR__ . '/component.php'));
+require_once realpath(__DIR__ . '/component.php');
 
-class Navbar extends Component {
+class Navbar extends Component
+{
 
-  private $sections = array();
+    private $sections = array();
 
-  protected function render (...$sections) { ?>
+    protected function render(...$sections)
+    {
+        ?>
     <header class="navbar">
-      <?php $this::print(array_merge($sections, $this->sections)); ?>
+        <?php $this::print(array_merge($sections, $this->sections)); ?>
     </header>
-    <?php
-  }
+        <?php
+    }
 
-  public function addSections (...$sections) {
-    array_push($this->sections, ...$sections);
-  }
+    public function addSections(...$sections)
+    {
+        array_push($this->sections, ...$sections);
+    }
 
 }

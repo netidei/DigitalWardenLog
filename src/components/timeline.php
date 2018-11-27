@@ -1,21 +1,24 @@
 <?php
 
-require_once(realpath(__DIR__ . '/component.php'));
-require_once(realpath(__DIR__ . '/timelineItem.php'));
+require_once realpath(__DIR__ . '/component.php');
+require_once realpath(__DIR__ . '/timelineItem.php');
 
-class Timeline extends Component {
+class Timeline extends Component
+{
 
-  protected function render ($components) {
-    $icon = null;
-    foreach ($components as $component) {
-      if ($component instanceof TimelineItem) {
-        $component->setIcon($icon);
-      }
-      $component->build();
-      if (!$icon) {
-        $icon = "icon-check";
-      }
+    protected function render($components)
+    {
+        $icon = null;
+        foreach ($components as $component)
+        {
+            if ($component instanceof TimelineItem) {
+                $component->setIcon($icon);
+            }
+            $component->build();
+            if (!$icon) {
+                $icon = "icon-check";
+            }
+        }
     }
-  }
   
 }

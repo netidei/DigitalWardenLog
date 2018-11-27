@@ -1,8 +1,8 @@
 <?php
-  require_once(realpath('./includes/page.php'));
-  require_once(realpath('./components/tile.php'));
-  require_once(realpath('./components/timelineItem.php'));
-  require_once(realpath('./components/timeline.php'));
+  require_once realpath('./includes/page.php');
+  require_once realpath('./components/tile.php');
+  require_once realpath('./components/timelineItem.php');
+  require_once realpath('./components/timeline.php');
   
   $page = new Page();
   $page->init('Main page');
@@ -10,7 +10,7 @@
   // Events
   $eventsData = $db->select('roadmap_event', '*', null, 'ORDER BY `date` DESC');
   $events = array();
-  while ($event = $eventsData->row()) {
+while ($event = $eventsData->row()) {
     // Title
     $id = $event[0];
     $date = date('d F', strtotime($event[1]));
@@ -24,7 +24,7 @@
     }
     // Add Event
     array_push($events, new TimelineItem(new Tile($title, $subtitles)));
-  }
+}
   $timeline = new Timeline($events);
 
 ?>

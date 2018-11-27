@@ -35,10 +35,12 @@ class SQL
     public static function dataToArray($data)
     {
         $array = array();
-        while ($row = self::getRow($data)) {
+        while ($row = self::getRow($data))
+        {
             $len = count($row);
             $rowArr = array();
-            for ($j = 0; $j < $len; ++$j) {
+            for ($j = 0; $j < $len; ++$j)
+            {
                 array_push($rowArr, $row[$j]);
             }
             array_push($array, $rowArr);
@@ -55,7 +57,7 @@ class SQL
         $password = self::PASSWORD;
         $dbName = self::DATABASE;
         $connection = mysqli_connect($host, $user, $password) or die("Error: " . mysqli_error($connection));
-        @include_once(realpath(__DIR__ . '/init.php'));
+        @include_once realpath(__DIR__ . '/init.php');
         $connection->set_charset("utf8");
         $connection->select_db($dbName);
         $this->connection = $connection;
@@ -97,25 +99,27 @@ class DB extends SQL
 
     protected static function getColumns($columns)
     {
-        switch (gettype($columns)) {
-            case 'array':
-                return self::join($columns);
-            case 'string':
-                return $columns;
-            default:
-                return '*';
+        switch (gettype($columns))
+        {
+        case 'array':
+            return self::join($columns);
+        case 'string':
+            return $columns;
+        default:
+            return '*';
         }
     }
 
     protected static function getValues($values)
     {
-        switch (gettype($values)) {
-            case 'array':
-                return '"' . self::join($values, '", "') . '"';
-            case 'string':
-                return '"' . $values . '"';
-            default:
-                return '';
+        switch (gettype($values))
+        {
+        case 'array':
+            return '"' . self::join($values, '", "') . '"';
+        case 'string':
+            return '"' . $values . '"';
+        default:
+            return '';
         }
     }
 
@@ -162,16 +166,3 @@ class DB extends SQL
         return parent::run($query);
     }
 }
-  
-  /*
-  CREATE DATABASE `digital_journal`;
-  CREATE TABLE `digital_journal`.`about` ( `field` VARCHAR(9) NOT NULL , `value` INT NOT NULL , UNIQUE (`field`)) ENGINE = InnoDB;
-  CREATE TABLE `digital_journal`.`ch_stud` ( `id` INT NOT NULL , `record` INT NOT NULL , `student` INT NOT NULL , `mark` BOOLEAN NOT NULL , `reason` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
-  CREATE TABLE `digital_journal`.`groupp` ( `id` INT NOT NULL , `number` INT NOT NULL , `faculty` VARCHAR(255) NOT NULL , `year` DATE NOT NULL , `napravl` VARCHAR(255) NOT NULL , `stepen` VARCHAR(15) NOT NULL , `curs` INT NOT NULL , `form` BOOLEAN NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
-  CREATE TABLE `digital_journal`.`student` ( `id` INT NOT NULL , `name` VARCHAR(180) NOT NULL , `group` INT NOT NULL , `ch_starost` BOOLEAN NOT NULL , PRIMARY KEY (`id`, `name`)) ENGINE = InnoDB;
-  CREATE TABLE `digital_journal`.`user` ( `id` INT NOT NULL , `username` VARCHAR(65) NOT NULL , `password` VARCHAR(100) NOT NULL , `role` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
-  CREATE TABLE `digital_journal`.`record` ( `id` INT NOT NULL , `subject` INT NOT NULL , `call` INT NOT NULL , `date` DATE NOT NULL , `teacher` INT NOT NULL , `description` VARCHAR(255) NOT NULL , `prep_utv` BOOLEAN NOT NULL , `bylo` BOOLEAN NOT NULL , `reason` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
-  CREATE TABLE `digital_journal`.`subject` ( `id` INT NOT NULL , `name` VARCHAR(60) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
-  CREATE TABLE `digital_journal`.`calll` ( `id` INT NOT NULL , `time_begin` TIME NOT NULL , `time_end` TIME NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
-  CREATE TABLE `digital_journal`.`teacher` ( `id` INT NOT NULL , `name` VARCHAR(180) NOT NULL , `ch_director` BOOLEAN NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
-*/

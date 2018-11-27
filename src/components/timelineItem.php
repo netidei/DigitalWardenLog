@@ -1,12 +1,15 @@
 <?php
 
-require_once(realpath(__DIR__ . '/component.php'));
+require_once realpath(__DIR__ . '/component.php');
 
-class TimelineItem extends Component {
+class TimelineItem extends Component
+{
 
-  private $icon = null;
+    private $icon = null;
 
-  protected function render (...$content) { ?>
+    protected function render(...$content)
+    {
+        ?>
     <div class="timeline-item">
       <div class="timeline-left">
         <?php if ($this->icon) { ?>
@@ -21,11 +24,12 @@ class TimelineItem extends Component {
         <?php $this::print($content); ?>
       </div>
     </div>
-    <?php
-  }
+        <?php
+    }
 
-  public function setIcon ($icon) {
-      $this->icon = $icon;
-  }
-  
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+    }
+
 }

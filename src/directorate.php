@@ -1,6 +1,6 @@
 <?php
-  require_once(realpath('./includes/validator.php'));
-  require_once(realpath('./includes/user.php'));
+  require_once realpath('./includes/validator.php');
+  require_once realpath('./includes/user.php');
   // TODO: Add some methods to Validator class to reduce this code
   $username = $password = "";
   $username_err = $password_err = "";
