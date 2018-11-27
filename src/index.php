@@ -3,7 +3,8 @@
   require_once(realpath('./components/timeline.php'));
   
   $page = new Page();
-  $page->init('Main page');
+  
+  $page->init('Main page', array('Directorate'=>'directorate.php'));
 ?>
 
 <h1>Roadmap</h1>

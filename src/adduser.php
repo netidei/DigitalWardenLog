@@ -5,7 +5,6 @@
   require_once(realpath('./includes/page.php'));
   
   $page = new Page();
-
   
   // TODO: Add some methods to Validator class to reduce this code
   $username = $password = "";
@@ -21,12 +20,18 @@
     }
   }
   
-  $page->init('Registration', array('add'=>'adduser.php'));
+  $page->init('add');
   
 ?>
-
-<h1>Directorate page</h1>
+<h1>Add new user</h1>
 <?php
-  
-  $page->build();
+FormBuilder(array(
+    array('name' => 'username', 'label' => 'Имя', 'type' => 'text'),
+    array('name' => 'password', 'label' => 'Пароль', 'type' => 'password'),
+    array('name' => 'role', 'label' => 'Роль', 'type' => 'select', 'options'=> array(
+      'Admin'=>'0', 'Директорат'=>'1', 'Преподаватель'=>'2', 'Староста'=>'3'
+    )),
+  ), 'Зарегистрировать');
+
+ $page->build(); 
  ?>
