@@ -11,10 +11,7 @@ class Timeline extends Component
         $icon = null;
         $components = $parameters['items'];
         foreach ($components as $component) {
-            if ($component instanceof TimelineItem) {
-                $component->setIcon($icon);
-            }
-            $component->build();
+            self::print($component, array('icon'=>$icon));
             if (!$icon) {
                 $icon = "icon-check";
             }

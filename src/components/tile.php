@@ -5,14 +5,16 @@ require_once realpath(__DIR__ . '/component.php');
 class Tile extends Component
 {
 
+    private const DATA = ['title', 'subtitles'=>array()];
+
     protected function render($parameters)
     {
-        $subtitles = $parameters['subtitles'];
+        extract(self::safe($parameters, self::DATA));
         ?>
         <div class="tile-content">
-        <p class="tile-title"><?php echo $parameters['title']; ?></p>
+        <p class="tile-title"><?= $title; ?></p>
             <?php foreach ($subtitles as $subtitle) { ?>
-            <p class="tile-subtitle"><?php echo $subtitle ?></p>
+                <p class="tile-subtitle"><?= $subtitle ?></p>
             <?php } ?>
         </div>
         <?php

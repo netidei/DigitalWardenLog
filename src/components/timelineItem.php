@@ -5,28 +5,26 @@ require_once realpath(__DIR__ . '/component.php');
 class TimelineItem extends Component
 {
 
+    private const DATA = ['content', 'icon'];
+
     protected function render($parameters)
     {
-        $content = $parameters['content'];
-        $icon = null;
-        if (in_array('icon', $parameters)) {
-            $parameters['icon'];
-        }
+        extract(self::safe($parameters, self::DATA));
         ?>
-      <div class="timeline-item">
-        <div class="timeline-left">
-          <?php if ($icon) { ?>
-            <a class="timeline-icon icon-lg">
-              <i class="icon <?php echo $icon; ?>"></i>
-            </a>
+        <div class="timeline-item">
+            <div class="timeline-left">
+            <?php if ($icon) { ?>
+                <a class="timeline-icon icon-lg">
+                <i class="icon <?= $icon ?>"></i>
+                </a>
             <?php } else { ?>
-            <a class="timeline-icon"></a>
-                <?php } ?>
+                <a class="timeline-icon"></a>
+            <?php } ?>
+            </div>
+            <div class="timeline-content">
+                <?php $this::print($content); ?>
+            </div>
         </div>
-        <div class="timeline-content">
-          <?php $this::print($content); ?>
-        </div>
-      </div>
         <?php
     }
 

@@ -5,6 +5,8 @@ require_once realpath(__DIR__ . '/component.php');
 class NavbarSection extends Component
 {
 
+    private const DATA = ['content', 'centered'=>false];
+
     public function setCentered($val)
     {
         $this->parameters['centered'] = $val;
@@ -12,15 +14,16 @@ class NavbarSection extends Component
 
     protected function render($parameters)
     {
-        $className =  $parameters['centered'] ? 'navbar-center' : 'navbar-section';
+        extract(self::safe($parameters, self::DATA));
+        $className = $centered ? 'navbar-center' : 'navbar-section';
         if (in_array('class', $parameters)) {
             $parameters['class'] .= $className;
         } else {
             $parameters['class'] = $className;
         }
         ?>
-        <section <?php $this->data($parameters); ?>>
-            <?php $this->print($parameters['content']); ?>
+        <section <?php $this->attributes($parameters); ?>>
+            <?php self::print($content); ?>
         </section>
         <?php
     }
