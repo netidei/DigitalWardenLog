@@ -25,13 +25,13 @@ abstract class Component
 
     private static function filterAttributes($attributes, $filter)
     {
-        return array_filter(
-            $attributes,
-            function ($key) use ($filter) {
-                return in_array($key, $filter);
-            },
-            ARRAY_FILTER_USE_KEY
-        ) || array();
+        $data = array();
+        foreach ($attributes as $key => $value) {
+            if (in_array($key, $filter)) {
+                $data[$key] = $value;
+            }
+        }
+        return $data;
     }
 
     private static function isAssoc(array $arr)
@@ -45,19 +45,18 @@ abstract class Component
     private static function merge($target, ...$sources)
     {
         foreach ($sources as $source) {
-            if (isset($source) && count($source) > 0) {
-                foreach ($source as $key => $val) {
-                    if (in_array($key, $target)) {
-                        switch (gettype($target[$key])) {
-                            case 'array':
-                                $target[$key] = self::isAssoc($target) ? self::merge($target[$key], $val) : array_merge($target[$key], $val);
-                            default:
-                                $target[$key] = $val;
-                                break;
-                        }
-                    } else {
-                        $target[$key] = $val;
+            foreach ($source as $key => $val) {
+                if (array_key_exists($key, $target)) {
+                    switch (gettype($target[$key])) {
+                        case 'array':
+                            $target[$key] = self::isAssoc($target) ? self::merge($target[$key], $val) : array_merge($target[$key], $val);
+                            break;
+                        default:
+                            $target[$key] = $val;
+                            break;
                     }
+                } else {
+                    $target[$key] = $val;
                 }
             }
         }
@@ -96,8 +95,6 @@ abstract class Component
     public function __construct($parameters)
     {
         if (gettype($parameters) !== 'array') {
-            print_r($parameters);
-            echo('<br>');
             die('Parameters of component is not an associative array!');
         }
         $this->parameters = $parameters;
@@ -114,28 +111,31 @@ abstract class Component
         $this->attributes = self::merge($this->attributes, $attributes);
     }
 
-    public function attributes($attributes, $filter = array())
+    public function attributes($attributes = array(), $filter = array())
     {
+        $atts = ' ';
+        if (array_key_exists('class', $attributes)) {
+            $atts .= $this->getClasses($attributes['class']);
+        } else {
+            $atts .= $this->getClasses();
+        }
         $filters = array_merge(self::FILTER, $filter);
         $attributes = self::filterAttributes($attributes, $filters);
         $data = self::merge($this->attributes, $attributes);
-        $atts = ' ';
         foreach ($data as $key => $val) {
-            switch ($key) {
-                case 'class':
-                    $atts .= 'class="' . implode(' ', array_merge($this->classes, $val)) . '" ';
-                    break;
-                default:
-                    $atts .= $key . '="' . $val . '" ';
-                    break;
-            }
+            $atts .= $key . '="' . $val . '" ';
         }
         echo $atts;
     }
 
     public function build($parameters = array())
     {
-        $data = self::merge($this->parameters, $parameters);
+        $data = $parameters ? self::merge($this->parameters, $parameters) : $this->parameters;
         $this->render($data);
+    }
+
+    private function getClasses(...$classes)
+    {
+        return 'class="' . implode(' ', array_merge($this->classes, $classes)) . '" ';
     }
 }

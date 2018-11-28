@@ -5,30 +5,11 @@ require_once realpath(__DIR__ . '/../component.php');
 class PageHeader extends Component
 {
 
-    private const DATA = ['title', 'menuItems'=>array(), 'username', 'content'];
+    private const DATA = ['title', 'content'];
 
     protected function render($parameters)
     {
         extract(self::safe($parameters, self::DATA));
-        $navbar = new Navbar([
-            'content'=>new NavbarSection([
-                'content'=>array_merge([
-                    new ButtonLink([
-                        'href'=>'index.php',
-                        'content'=>'Digital Journal',
-                        'class'=>'text-bold'
-                    ])
-                ], $menuItems)
-            ])
-        ]);
-        if ($username) {
-            $navbar->addSections(new NavbarSection([
-                'content'=>[
-                    new DefaultLink(array('href'=>'index.php', 'content'=>$username)),
-                    new PrimaryLink(array('href'=>'logout.php', 'content'=>'Exit'))
-                ]
-            ]));
-        }
         ?>
         <html>
             <head>
@@ -42,7 +23,6 @@ class PageHeader extends Component
         <body>
             <div class="container">
                 <?php
-                    self::print($navbar);
                     self::print($content);
     }
 }

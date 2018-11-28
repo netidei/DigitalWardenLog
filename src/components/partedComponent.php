@@ -5,7 +5,7 @@ require_once realpath(__DIR__ . '/component.php');
 class PartedComponent extends Component
 {
 
-    private const DATA = ['content'];
+    private const DATA = ['content'=>array()];
 
     protected function render($parameters)
     {

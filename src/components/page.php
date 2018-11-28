@@ -12,6 +12,8 @@ require_once realpath(__DIR__ . '/page/footer.php');
 class Page extends PartedComponent
 {
 
+    private const DATA = ['menuItems'=>array()];
+
     private $database;
     private $user;
 
@@ -34,7 +36,25 @@ class Page extends PartedComponent
 
     public function header($parameters = array())
     {
-        $parameters['username'] = $this->user ? $this->user->getUsername() : null;
+        extract(self::safe($parameters, self::DATA));
+        $navbar = new Navbar([
+            'content'=>new NavbarSection([
+                'content'=>array_merge([ new ButtonLink([
+                    'href'=>'index.php',
+                    'content'=>'Digital Journal',
+                    'class'=>'text-bold'
+                ]) ], $menuItems)
+            ])
+        ]);
+        if ($username = $this->user ? $this->user->getUsername() : false) {
+            $navbar->addSections(new NavbarSection([
+                'content'=>[
+                    new DefaultLink(['href'=>'index.php', 'content'=>$username]),
+                    new PrimaryLink(['href'=>'logout.php', 'content'=>'Exit'])
+                ]
+            ]));
+        }
+        $parameters['content'] = $navbar;
         $this->build(['content'=>new PageHeader($parameters)]);
     }
 
