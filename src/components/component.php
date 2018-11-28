@@ -111,14 +111,28 @@ abstract class Component
         $this->attributes = self::merge($this->attributes, $attributes);
     }
 
+    public function classes($parameters)
+    {
+        $str = ' ';
+        if ($parameters && array_key_exists('class', $parameters)) {
+            $cls = $parameters['class'];
+            $type = gettype($cls);
+            $str .= 'class="';
+            if ($type === 'array') {
+                $str .= implode(' ', array_merge($this->classes, $cls));
+            } elseif ($type === 'string') {
+                $str .= implode(' ', $this->classes) . ' ' . $cls;
+            }
+            $str .= '" ';
+        } else {
+            $str .= 'class="' . implode(' ', $this->classes) . '" ';
+        }
+        return $str;
+    }
+
     public function attributes($attributes = array(), $filter = array())
     {
-        $atts = ' ';
-        if (array_key_exists('class', $attributes)) {
-            $atts .= $this->getClasses($attributes['class']);
-        } else {
-            $atts .= $this->getClasses();
-        }
+        $atts = $this->classes($attributes);
         $filters = array_merge(self::FILTER, $filter);
         $attributes = self::filterAttributes($attributes, $filters);
         $data = self::merge($this->attributes, $attributes);
@@ -132,10 +146,5 @@ abstract class Component
     {
         $data = $parameters ? self::merge($this->parameters, $parameters) : $this->parameters;
         $this->render($data);
-    }
-
-    private function getClasses(...$classes)
-    {
-        return 'class="' . implode(' ', array_merge($this->classes, $classes)) . '" ';
     }
 }
