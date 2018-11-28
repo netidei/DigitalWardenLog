@@ -1,8 +1,8 @@
 <?php
   require_once realpath('./components/page.php');
-  require_once realpath('./components/tile.php');
-  require_once realpath('./components/timelineItem.php');
-  require_once realpath('./components/timeline.php');
+  require_once realpath('./components/layout/tile.php');
+  require_once realpath('./components/timeline/timelineItem.php');
+  require_once realpath('./components/timeline/timeline.php');
   
   $page = new Page();
   $page->header(['title'=>'Main page']);

@@ -1,11 +1,11 @@
 <?php
 
-require_once realpath(__DIR__ . '/component.php');
+require_once realpath(__DIR__ . '/../component.php');
 
 class Navbar extends Component
 {
 
-    private const DATA = ['content'=>array()];
+    private const DATA = ['content'=>array(), 'sections'=>array()];
 
     public function __construct($parameters)
     {
@@ -17,7 +17,7 @@ class Navbar extends Component
     protected function render($parameters)
     {
         extract(self::safe($parameters, self::DATA));
-        array_push($content, ...$parameters['sections']);
+        array_push($content, ...$sections);
         ?>
         <header <?php $this->attributes($parameters); ?>>
             <?php self::print($content); ?>

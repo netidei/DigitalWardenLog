@@ -45,7 +45,7 @@ abstract class Component
     private static function merge($target, ...$sources)
     {
         foreach ($sources as $source) {
-            if (count($source) > 0) {
+            if (isset($source) && count($source) > 0) {
                 foreach ($source as $key => $val) {
                     if (in_array($key, $target)) {
                         switch (gettype($target[$key])) {
@@ -77,20 +77,17 @@ abstract class Component
         }
     }
 
-    protected static function get($key, $parameters)
-    {
-        return isset($parameters[$key]) ? $parameters[$key] : null;
-    }
-
     protected static function safe($parameters, $names)
     {
         foreach ($names as $key => $val) {
             if (is_numeric($key)) {
-                if (!in_array($val, $parameters)) {
+                if (!array_key_exists($val, $parameters)) {
                     $parameters[$val] = null;
                 }
-            } elseif (!in_array($key, $parameters)) {
+            } elseif (!array_key_exists($key, $parameters) || !isset($parameters[$key])) {
                 $parameters[$key] = $val;
+            } elseif (gettype($val) === 'array' && gettype($parameters[$key]) !== 'array') {
+                $parameters[$key] = array($parameters[$key]);
             }
         }
         return $parameters;

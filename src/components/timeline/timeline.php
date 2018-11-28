@@ -1,7 +1,6 @@
 <?php
 
-require_once realpath(__DIR__ . '/component.php');
-require_once realpath(__DIR__ . '/timelineItem.php');
+require_once realpath(__DIR__ . '/../component.php');
 
 class Timeline extends Component
 {

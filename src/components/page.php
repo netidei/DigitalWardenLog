@@ -2,17 +2,15 @@
 
 require_once realpath(__DIR__ . '/includes/connection.php');
 require_once realpath(__DIR__ . '/includes/user.php');
-require_once realpath(__DIR__ . '/component.php');
-require_once realpath(__DIR__ . '/links.php');
-require_once realpath(__DIR__ . '/navbarSection.php');
-require_once realpath(__DIR__ . '/navbar.php');
-require_once realpath(__DIR__ . '/header.php');
-require_once realpath(__DIR__ . '/footer.php');
+require_once realpath(__DIR__ . '/partedComponent.php');
+require_once realpath(__DIR__ . '/form/links.php');
+require_once realpath(__DIR__ . '/layout/navbarSection.php');
+require_once realpath(__DIR__ . '/layout/navbar.php');
+require_once realpath(__DIR__ . '/page/header.php');
+require_once realpath(__DIR__ . '/page/footer.php');
 
-class Page extends Component
+class Page extends PartedComponent
 {
-
-    private const DATA = ['content'];
 
     private $database;
     private $user;
@@ -32,12 +30,6 @@ class Page extends Component
         } elseif ($pos === false) {
             $this->user = User::fromSession($this->database);
         }
-    }
-
-    protected function render($parameters)
-    {
-        extract(self::safe($parameters, self::DATA));
-        self::print($content, $parameters);
     }
 
     public function header($parameters = array())

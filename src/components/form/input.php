@@ -1,6 +1,6 @@
 <?php
 
-require_once realpath(__DIR__ . '/component.php');
+require_once realpath(__DIR__ . '/../component.php');
 
 class Input extends Component
 {
