@@ -1,11 +1,11 @@
 <?php
-  require_once realpath('./includes/page.php');
+  require_once realpath('./components/page.php');
   require_once realpath('./components/tile.php');
   require_once realpath('./components/timelineItem.php');
   require_once realpath('./components/timeline.php');
   
   $page = new Page();
-  $page->init('Main page');
+  $page->header(['title'=>'Main page']);
   $db = $page->getDatabase();
   // Events
   $eventsData = $db->select('roadmap_event', '*', null, 'ORDER BY `date` DESC');
@@ -36,4 +36,4 @@ while ($event = $eventsData->row()) {
     <?php $timeline->build(); ?>
 </div>
 
-<?php $page->build();
+<?php $page->footer();

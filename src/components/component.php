@@ -9,7 +9,7 @@ abstract class Component
     private $classes = array();
     private $attributes = array();
 
-    private static function write($element, $parameters = null)
+    private static function write($element, $parameters = array())
     {
         if ($element) {
             $type = gettype($element);
@@ -31,7 +31,7 @@ abstract class Component
                 return in_array($key, $filter);
             },
             ARRAY_FILTER_USE_KEY
-        );
+        ) || array();
     }
 
     private static function isAssoc(array $arr)
@@ -44,20 +44,20 @@ abstract class Component
 
     private static function merge($target, ...$sources)
     {
-        echo 'arr: ';
-        print_r($sources);
         foreach ($sources as $source) {
-            foreach ($source as $key => $val) {
-                if (in_array($key, $target)) {
-                    switch (gettype($target[$key])) {
-                        case 'array':
-                            $target[$key] = self::isAssoc($target) ? self::merge($target[$key], $val) : array_merge($target[$key], $val);
-                        default:
-                            $target[$key] = $val;
-                            break;
+            if (count($source) > 0) {
+                foreach ($source as $key => $val) {
+                    if (in_array($key, $target)) {
+                        switch (gettype($target[$key])) {
+                            case 'array':
+                                $target[$key] = self::isAssoc($target) ? self::merge($target[$key], $val) : array_merge($target[$key], $val);
+                            default:
+                                $target[$key] = $val;
+                                break;
+                        }
+                    } else {
+                        $target[$key] = $val;
                     }
-                } else {
-                    $target[$key] = $val;
                 }
             }
         }

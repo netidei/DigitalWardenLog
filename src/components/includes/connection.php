@@ -35,12 +35,10 @@ class SQL
     public static function dataToArray($data)
     {
         $array = array();
-        while ($row = self::getRow($data))
-        {
+        while ($row = self::getRow($data)) {
             $len = count($row);
             $rowArr = array();
-            for ($j = 0; $j < $len; ++$j)
-            {
+            for ($j = 0; $j < $len; ++$j) {
                 array_push($rowArr, $row[$j]);
             }
             array_push($array, $rowArr);
@@ -99,27 +97,25 @@ class DB extends SQL
 
     protected static function getColumns($columns)
     {
-        switch (gettype($columns))
-        {
-        case 'array':
-            return self::join($columns);
-        case 'string':
-            return $columns;
-        default:
-            return '*';
+        switch (gettype($columns)) {
+            case 'array':
+                return self::join($columns);
+            case 'string':
+                return $columns;
+            default:
+                return '*';
         }
     }
 
     protected static function getValues($values)
     {
-        switch (gettype($values))
-        {
-        case 'array':
-            return '"' . self::join($values, '", "') . '"';
-        case 'string':
-            return '"' . $values . '"';
-        default:
-            return '';
+        switch (gettype($values)) {
+            case 'array':
+                return '"' . self::join($values, '", "') . '"';
+            case 'string':
+                return '"' . $values . '"';
+            default:
+                return '';
         }
     }
 

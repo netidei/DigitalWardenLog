@@ -42,12 +42,12 @@ class User
         }
         if (is_string($role)) {
             switch (mb_strtolower($role)) {
-            case 'директорат':
-                return 1;
-            case 'преподаватель':
-                return 2;
-            default:
-                return 3;
+                case 'директорат':
+                    return 1;
+                case 'преподаватель':
+                    return 2;
+                default:
+                    return 3;
             }
         }
         die("Error with normalize role - $role");
