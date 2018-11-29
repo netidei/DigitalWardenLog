@@ -4,10 +4,41 @@ abstract class Component
 {
 
     private const FILTER = ['id', 'name', 'onClick'];
+    protected const PARAMS = 'parametersNames';
 
     protected $parameters;
+    protected $parametersNames;
     private $classes = array();
     private $attributes = array();
+    
+    public static function print($data = null, $parameters = null)
+    {
+        if ($data) {
+            if (gettype($data) === 'array') {
+                foreach ($data as $element) {
+                    self::write($element, $parameters);
+                }
+            } else {
+                self::write($data, $parameters);
+            }
+        }
+    }
+
+    public static function ext($parameters, $names)
+    {
+        foreach ($names as $key => $val) {
+            if (is_numeric($key)) {
+                if (!array_key_exists($val, $parameters)) {
+                    $parameters[$val] = null;
+                }
+            } elseif (!array_key_exists($key, $parameters) || !isset($parameters[$key])) {
+                $parameters[$key] = $val;
+            } elseif (gettype($val) === 'array' && gettype($parameters[$key]) !== 'array') {
+                $parameters[$key] = array($parameters[$key]);
+            }
+        }
+        return $parameters;
+    }
 
     private static function write($element, $parameters = array())
     {
@@ -63,41 +94,24 @@ abstract class Component
         return $target;
     }
 
-    protected static function print($data = null, $parameters = null)
-    {
-        if ($data) {
-            if (gettype($data) === 'array') {
-                foreach ($data as $element) {
-                    self::write($element, $parameters);
-                }
-            } else {
-                self::write($data, $parameters);
-            }
-        }
-    }
-
-    protected static function safe($parameters, $names)
-    {
-        foreach ($names as $key => $val) {
-            if (is_numeric($key)) {
-                if (!array_key_exists($val, $parameters)) {
-                    $parameters[$val] = null;
-                }
-            } elseif (!array_key_exists($key, $parameters) || !isset($parameters[$key])) {
-                $parameters[$key] = $val;
-            } elseif (gettype($val) === 'array' && gettype($parameters[$key]) !== 'array') {
-                $parameters[$key] = array($parameters[$key]);
-            }
-        }
-        return $parameters;
-    }
-
-    public function __construct($parameters)
+    public function __construct($parameters = array())
     {
         if (gettype($parameters) !== 'array') {
             die('Parameters of component is not an associative array!');
         }
         $this->parameters = $parameters;
+        extract(self::ext($parameters, [self::PARAMS=>array()]));
+        $this->parametersNames = ${self::PARAMS};
+    }
+
+    protected function safe($parameters)
+    {
+        return self::ext($parameters, $this->parametersNames);
+    }
+
+    protected function addParameters($names)
+    {
+        $this->parametersNames = array_merge($this->parametersNames, $names);
     }
 
     public function addClasses(...$classes)
@@ -127,12 +141,13 @@ abstract class Component
         } else {
             $str .= 'class="' . implode(' ', $this->classes) . '" ';
         }
-        return $str;
+        echo $str;
     }
 
     public function attributes($attributes = array(), $filter = array())
     {
-        $atts = $this->classes($attributes);
+        $this->classes($attributes);
+        $atts = ' ';
         $filters = array_merge(self::FILTER, $filter);
         $attributes = self::filterAttributes($attributes, $filters);
         $data = self::merge($this->attributes, $attributes);

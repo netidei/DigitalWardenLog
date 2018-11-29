@@ -23,10 +23,10 @@ while ($event = $eventsData->row()) {
         array_push($subtitles, $subtitle[0]);
     }
     // Add Event
-    $tile = new Tile(array('title'=>$title, 'subtitles'=>$subtitles));
-    array_push($events, new TimelineItem(array('content'=>$tile)));
+    $tile = new Tile(['title'=>$title, 'subtitles'=>$subtitles]);
+    array_push($events, new TimelineItem(['content'=>$tile]));
 }
-  $timeline = new Timeline(array('items'=>$events));
+  $timeline = new Timeline(['items'=>$events]);
 
 ?>
 

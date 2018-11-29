@@ -2,7 +2,7 @@
 
 require_once realpath(__DIR__ . '/../component.php');
 
-class NavbarSection extends Component
+class MenuSection extends Component
 {
 
     private const DATA = ['content', 'centered'=>false];
