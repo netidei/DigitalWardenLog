@@ -3,7 +3,6 @@
 require_once realpath(__DIR__ . '/includes/connection.php');
 require_once realpath(__DIR__ . '/includes/user.php');
 require_once realpath(__DIR__ . '/component.php');
-require_once realpath(__DIR__ . '/layout/header.php');
 require_once realpath(__DIR__ . '/layout/menu.php');
 require_once realpath(__DIR__ . '/layout/menuSection.php');
 require_once realpath(__DIR__ . '/form/links.php');
@@ -11,63 +10,65 @@ require_once realpath(__DIR__ . '/form/links.php');
 abstract class Page extends Component
 {
 
-    public function __construct($parameters = array())
+    public function __construct($props = array())
     {
         $db = new DB();
         $user = null;
         session_start();
         $pos = in_array(self::GET('page'), ['login', 'register']);// is page available for unauthorized user
-        if ((!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) && ($pos === false)) {
+        if ((!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) && !$pos) {
             header("location: index.php?page=login");
             exit;
         } elseif ($pos === false) {
             $user = User::fromSession($db);
         }
-        $parameters['database'] = $db;
-        $parameters['user'] = $user;
-        parent::__construct($parameters);
-        $this->addParameters(['title'=>'Digital Journal']);
+        parent::__construct($props);
+        $this->define([
+            'title'=>'Digital Journal',
+            'db'=>$db,
+            'user'=>$user
+        ]);
     }
-    
-    protected function header($parameters)
+
+    protected function header($props, $db, $user)
     {
-        extract(self::ext($parameters, ['menuItems'=>array(), 'menuSections'=>array()]));
+        [$menuItems] = self::extract($props, ['menuItems'=>array()]);
         $menu = new Menu([
-            'container'=>new Header(),
             'menuSections'=>[ new MenuSection([
                 'content'=>array_merge([ new ButtonLink([
-                    'href'=>'index.php',
                     'content'=>'Digital Journal',
-                    'class'=>'text-bold'
+                    'attributes'=>[
+                        'href'=>'index.php',
+                        'class'=>['text-bold']
+                    ],
                 ]) ], $menuItems)
             ]) ]
         ]);
-        $user = $this->getUser();
-        $menu->addSections(...$menuSections);
-        if ($username = $user ? $user->getUsername() : false) {
+        if ($user) {
+            $username = $user->getUsername();
             $menu->addSections(new MenuSection([ 'content'=>[
-                new DefaultLink(['href'=>'index.php', 'content'=>$username]),
-                new PrimaryLink(['href'=>'index.php?page=logout', 'content'=>'Exit'])
+                new DefaultLink(['content'=>$username, 'attributes'=>['href'=>'index.php']]),
+                new PrimaryLink(['content'=>'Exit', 'attributes'=>['href'=>'index.php?page=logout']])
             ] ]));
         }
-        self::print($menu);
-    }
-
-    abstract protected function content($parameters);
-
-    protected function footer($parameters)
-    {
-        extract(self::ext($parameters, ['footer']));
         ?>
-        <footer>
-            <?php self::print($footer) ?>
-        </footer>
+            <header class="navbar">
+                <?php self::print($menu) ?>
+            </header>
         <?php
     }
 
-    protected function render($parameters)
+    abstract protected function content($props, $db, $user);
+
+    protected function footer($props, $db, $user)
     {
-        extract($this->safe($parameters));
+        ?>
+        <footer></footer>
+        <?php
+    }
+
+    protected function render($props, $title, $db, $user)
+    {
         ?>
         <html>
             <head>
@@ -81,23 +82,13 @@ abstract class Page extends Component
             <body>
                 <div class="container">
                     <?php
-                        $this->header($parameters);
-                        $this->content($parameters);
-                        $this->footer($parameters);
+                        $this->header($props, $db, $user);
+                        $this->content($props, $db, $user);
+                        $this->footer($props, $db, $user);
                     ?>
                 </div>
             </body>
         </html>
         <?php
-    }
-
-    public function getDatabase()
-    {
-        return $this->parameters['database'];
-    }
-
-    public function getUser()
-    {
-        return isset($this->parameters['user']) ? $this->parameters['user'] : null;
     }
 }

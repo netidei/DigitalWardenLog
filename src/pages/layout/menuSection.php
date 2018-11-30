@@ -1,32 +1,28 @@
 <?php
 
-require_once realpath(__DIR__ . '/../component.php');
+require_once realpath(__DIR__ . '/../element.php');
 
-class MenuSection extends Component
+class MenuSection extends Element
 {
 
-    public function __construct($parameters = array())
+    public function __construct($props = array())
     {
-        parent::__construct($parameters);
-        $this->addParameters(['centered'=>false]);
+        parent::__construct($props);
+        $this->define([ 'content'=>'array', 'centered'=>false ]);
     }
 
     public function setCentered($val)
     {
-        $this->parameters['centered'] = $val;
+        $this->setProps([ 'centered'=>$val ]);
     }
 
-    protected function render($parameters)
+    protected function render($props, $content, $centered)
     {
-        extract($this->safe($parameters));
-        $className = $centered ? 'navbar-center' : 'navbar-section';
-        if (in_array('class', $parameters)) {
-            $parameters['class'] .= $className;
-        } else {
-            $parameters['class'] = $className;
-        }
+        $this->addAttributes([ 'class'=>[
+            $centered ? 'navbar-center' : 'navbar-section'
+        ] ]);
         ?>
-        <section <?php $this->attributes($parameters); ?>>
+        <section <?php $this->attributes($props); ?>>
             <?php self::print($content); ?>
         </section>
         <?php

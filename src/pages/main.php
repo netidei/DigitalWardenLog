@@ -7,9 +7,8 @@
 class MainPage extends Page
 {
 
-    protected function content($parameters)
+    protected function content($props, $db, $user)
     {
-        $db = $this->getDatabase();
         // Events
         $eventsData = $db->select('roadmap_event', '*', null, 'ORDER BY `date` DESC');
         $events = array();

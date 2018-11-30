@@ -4,17 +4,16 @@
 class LoginPage extends Page
 {
 
-    protected function header($parameters)
+    protected function header($props, $db, $user)
     {
-        $parameters['menuItems'] = [ function ($parameters) { ?>
+        $props['menuItems'] = [ function ($props) { ?>
             <a href="index.php?page=register" class="btn btn-link">Registration</a>
         <?php } ];
-        parent::header($parameters);
+        parent::header($props, $db, $user);
     }
 
-    protected function content($parameters)
+    protected function content($props, $db, $user)
     {
-        $db = $this->getDatabase();
         $err = null;
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = self::POST('login');
@@ -38,7 +37,7 @@ class LoginPage extends Page
         <form method="POST">
             <div class="form-group">
                 <label class="form-label" for="loginInput">Login</label>
-                <input class="form-input" type="text" name="login" id="loginInput" placeholder="Login">
+                <input class="form-input" type="text" name="login" id="loginInput">
             </div>
             <div class="form-group">
                 <label class="form-label" for="passInput">Password</label>

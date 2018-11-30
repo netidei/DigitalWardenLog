@@ -5,22 +5,19 @@ require_once realpath(__DIR__ . './../component.php');
 class Menu extends Component
 {
 
-    public function __construct($parameters = array())
+    public function __construct($props = array())
     {
-        parent::__construct($parameters);
-        $this->addParameters(['container', 'menuSections'=>array()]);
+        parent::__construct($props);
+        $this->define([ 'menuSections'=>'array' ]);
     }
 
-    protected function render($paramentes)
+    protected function render($props, $menuSections)
     {
-        extract($this->safe($paramentes));
-        self::print($container, ['content'=>$menuSections, 'class'=>'navbar']);
+        self::print($menuSections);
     }
 
     public function addSections(...$sections)
     {
-        if (count($sections) > 0) {
-            array_push($this->parameters['menuSections'], ...$sections);
-        }
+        $this->setProps([ 'menuSections'=>$sections ]);
     }
 }

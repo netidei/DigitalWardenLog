@@ -5,9 +5,8 @@ require_once realpath(__DIR__ . './page.php');
 class RegisterPage extends Page
 {
 
-    protected function content($parameters)
+    protected function content($props, $db, $user)
     {
-        $db = $this->getDatabase();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = self::POST('login');
             $password = self::POST('password');

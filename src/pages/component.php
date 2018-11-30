@@ -3,42 +3,8 @@
 abstract class Component
 {
 
-    private const FILTER = ['id', 'name', 'onClick'];
-    protected const PARAMS = 'parametersNames';
-
-    protected $parameters;
-    protected $parametersNames;
-    private $classes = array();
-    private $attributes = array();
-    
-    public static function print($data = null, $parameters = null)
-    {
-        if ($data) {
-            if (gettype($data) === 'array') {
-                foreach ($data as $element) {
-                    self::write($element, $parameters);
-                }
-            } else {
-                self::write($data, $parameters);
-            }
-        }
-    }
-
-    public static function ext($parameters, $names)
-    {
-        foreach ($names as $key => $val) {
-            if (is_numeric($key)) {
-                if (!array_key_exists($val, $parameters)) {
-                    $parameters[$val] = null;
-                }
-            } elseif (!array_key_exists($key, $parameters) || !isset($parameters[$key])) {
-                $parameters[$key] = $val;
-            } elseif (gettype($val) === 'array' && gettype($parameters[$key]) !== 'array') {
-                $parameters[$key] = array($parameters[$key]);
-            }
-        }
-        return $parameters;
-    }
+    protected $props;
+    protected $propsStructure;
 
     public static function GET($name)
     {
@@ -49,30 +15,76 @@ abstract class Component
     {
         return isset($_POST) && isset($_POST[$name]) ? $_POST[$name] : null;
     }
-
-    private static function write($element, $parameters = array())
+    
+    public static function print($data, $props = array())
     {
-        if ($element) {
-            $type = gettype($element);
-            if (is_callable($element) && $element instanceof Closure) {
-                $element($parameters);
-            } elseif ($type === 'object' && $element instanceof Component) {
-                $element->build($parameters);
-            } elseif ($type === 'string') {
-                echo($element);
+        if ($data) {
+            if (gettype($data) === 'array') {
+                foreach ($data as $element) {
+                    self::write($element, $props);
+                }
+            } else {
+                self::write($data, $props);
             }
         }
     }
 
-    private static function filterAttributes($attributes, $filter)
+    public static function extract($props, $structure)
     {
         $data = array();
-        foreach ($attributes as $key => $value) {
-            if (in_array($key, $filter)) {
-                $data[$key] = $value;
+        foreach ($structure as $key => $val) {
+            if (is_numeric($key)) {
+                if (array_key_exists($val, $props)) {
+                    array_push($data, $props[$val]);
+                } else {
+                    array_push($data, null);
+                }
+            } else {
+                if (isset($props[$key])) {
+                    array_push($data, $props[$key]);
+                } else {
+                    array_push($data, $val);
+                }
             }
         }
         return $data;
+    }
+
+    protected static function merge($target, ...$sources)
+    {
+        foreach ($sources as $source) {
+            foreach ($source as $key => $val) {
+                if (array_key_exists($key, $target)) {
+                    $type = gettype($target[$key]);
+                    if ($type === 'array') {
+                        if (self::isAssoc($target[$key])) {
+                            $target[$key] = self::merge($target[$key], $val);
+                        } else {
+                            $target[$key] = array_unique(array_merge($target[$key], $val));
+                        }
+                    } else {
+                        $target[$key] = $val;
+                    }
+                } else {
+                    $target[$key] = $val;
+                }
+            }
+        }
+        return $target;
+    }
+    
+    private static function write($element, $props)
+    {
+        if ($element) {
+            $type = gettype($element);
+            if (is_callable($element) && $element instanceof Closure) {
+                $element($props);
+            } elseif ($type === 'object' && $element instanceof Component) {
+                $element->build($props);
+            } elseif ($type === 'string') {
+                echo($element);
+            }
+        }
     }
 
     private static function isAssoc(array $arr)
@@ -83,95 +95,76 @@ abstract class Component
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
 
-    private static function merge($target, ...$sources)
+    private static function getDefaultValue($type)
     {
-        foreach ($sources as $source) {
-            foreach ($source as $key => $val) {
-                if (array_key_exists($key, $target)) {
-                    switch (gettype($target[$key])) {
-                        case 'array':
-                            $target[$key] = self::isAssoc($target) ? self::merge($target[$key], $val) : array_merge($target[$key], $val);
-                            break;
-                        default:
-                            $target[$key] = $val;
-                            break;
-                    }
-                } else {
-                    $target[$key] = $val;
+        switch ($type) {
+            case 'array':
+            case 'map':
+                return array();
+            case 'number':
+                return 0;
+            case 'boolean':
+                return false;
+            case 'string':
+                return '';
+            default:
+                return $type;
+        }
+    }
+
+    private static function getProp($type, $target, $source)
+    {
+        switch ($type) {
+            case 'array':
+                return array_merge($target, $source);
+            case 'map':
+                return self::merge($target, $source);
+            default:
+                return $source;
+        }
+    }
+
+    public function __construct($props)
+    {
+        if (gettype($props) !== 'array' || !self::isAssoc($props)) {
+            die('Properties of component is not an associative array!');
+        }
+        $this->props = $props;
+        $this->propsStructure = array();
+    }
+
+    public function __get($name)
+    {
+        if (array_key_exists($name, $this->propsStructure)) {
+            return $this->props[$name];
+        }
+        return null;
+    }
+
+    protected function setProps($props)
+    {
+        if ($props && self::isAssoc($props)) {
+            foreach ($this->propsStructure as $prop => $type) {
+                if (array_key_exists($prop, $props)) {
+                    $this->props[$prop] = self::getProp($type, $this->props[$prop], $props[$prop]);
                 }
             }
         }
-        return $target;
     }
 
-    public function __construct($parameters = array())
+    protected function define($structure)
     {
-        if (gettype($parameters) !== 'array') {
-            die('Parameters of component is not an associative array!');
-        }
-        $this->parameters = $parameters;
-        extract(self::ext($parameters, [self::PARAMS=>array()]));
-        $this->parametersNames = ${self::PARAMS};
-    }
-
-    abstract protected function render ($parameters);
-
-    protected function safe($parameters)
-    {
-        return self::ext($parameters, $this->parametersNames);
-    }
-
-    protected function addParameters($names)
-    {
-        $this->parametersNames = array_merge($this->parametersNames, $names);
-    }
-
-    public function addClasses(...$classes)
-    {
-        $this->classes = array_merge($this->classes, $classes);
-    }
-
-    public function addAttributes($attributes, $filter = array())
-    {
-        $attributes = self::filterAttributes($attributes, $filter);
-        $this->attributes = self::merge($this->attributes, $attributes);
-    }
-
-    public function classes($parameters)
-    {
-        $str = ' ';
-        if ($parameters && array_key_exists('class', $parameters)) {
-            $cls = $parameters['class'];
-            $type = gettype($cls);
-            $str .= 'class="';
-            if ($type === 'array') {
-                $str .= implode(' ', array_merge($this->classes, $cls));
-            } elseif ($type === 'string') {
-                $str .= implode(' ', $this->classes) . ' ' . $cls;
+        $this->propsStructure = self::merge($this->propsStructure, $structure);
+        foreach ($this->propsStructure as $prop => $type) {
+            if (!array_key_exists($prop, $this->props)) {
+                $this->props[$prop] = self::getDefaultValue($type);
             }
-            $str .= '" ';
-        } else {
-            $str .= 'class="' . implode(' ', $this->classes) . '" ';
         }
-        echo $str;
     }
 
-    public function attributes($attributes = array(), $filter = array())
+    public function build($props)
     {
-        $this->classes($attributes);
-        $atts = ' ';
-        $filters = array_merge(self::FILTER, $filter);
-        $attributes = self::filterAttributes($attributes, $filters);
-        $data = self::merge($this->attributes, $attributes);
-        foreach ($data as $key => $val) {
-            $atts .= $key . '="' . $val . '" ';
-        }
-        echo $atts;
-    }
-
-    public function build($parameters = array())
-    {
-        $data = $parameters ? self::merge($this->parameters, $parameters) : $this->parameters;
-        $this->render($data);
+        $this->setProps($props);
+        $this->render($props, ...self::extract($this->props, $this->propsStructure));
     }
 }

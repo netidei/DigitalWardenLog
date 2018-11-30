@@ -5,15 +5,17 @@ require_once realpath(__DIR__ . '/../component.php');
 class TimelineItem extends Component
 {
 
-    public function __construct($parameters = array())
+    public function __construct($props = array())
     {
-        parent::__construct($parameters);
-        $this->addParameters(['icon', 'content']);
+        parent::__construct($props);
+        $this->define([
+            'icon'=>false,
+            'content'=>'array'
+        ]);
     }
 
-    protected function render($parameters)
+    protected function render($props, $icon, $content)
     {
-        extract($this->safe($parameters));
         ?>
         <div class="timeline-item">
             <div class="timeline-left">
@@ -30,10 +32,5 @@ class TimelineItem extends Component
             </div>
         </div>
         <?php
-    }
-
-    public function setIcon($icon)
-    {
-        $this->parameters['icon'] = $icon;
     }
 }

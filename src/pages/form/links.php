@@ -1,24 +1,23 @@
 <?php
 
-require_once realpath(__DIR__ . '/../component.php');
+require_once realpath(__DIR__ . '/../element.php');
 
-class DefaultLink extends Component
+class DefaultLink extends Element
 {
 
-    private const ATTRS = ['href'];
-
-    public function __construct($parameters = array())
+    public function __construct($props = array())
     {
-        parent::__construct($parameters);
-        $this->addParameters(['content']);
-        $this->addClasses('btn');
+        $props = self::merge($props, [ 'attributesList'=>['href'], 'attributes'=>[
+            'class'=>['btn']
+        ] ]);
+        parent::__construct($props);
+        $this->define([ 'content'=>'array' ]);
     }
 
-    protected function render($parameters)
+    protected function render($props, $content)
     {
-        extract($this->safe($parameters));
         ?>
-        <a <?php $this->attributes($parameters, self::ATTRS); ?>>
+        <a <?php $this->attributes($props) ?>>
             <?php self::print($content); ?>
         </a>
         <?php
@@ -28,10 +27,12 @@ class DefaultLink extends Component
 class ButtonLink extends DefaultLink
 {
 
-    public function __construct(...$data)
+    public function __construct($props)
     {
-        parent::__construct(...$data);
-        $this->addClasses('btn-link');
+        parent::__construct($props);
+        $this->addAttributes([
+            'class'=>['btn-link']
+        ]);
     }
 }
 
@@ -41,6 +42,8 @@ class PrimaryLink extends DefaultLink
     public function __construct(...$data)
     {
         parent::__construct(...$data);
-        $this->addClasses('btn-primary');
+        $this->addAttributes([
+            'class'=>['btn-primary']
+        ]);
     }
 }
