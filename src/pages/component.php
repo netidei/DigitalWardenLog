@@ -3,8 +3,8 @@
 abstract class Component
 {
 
-    protected $props;
-    protected $propsStructure;
+    protected $state;
+    protected $stateStructure;
 
     public static function GET($name)
     {
@@ -29,25 +29,25 @@ abstract class Component
         }
     }
 
-    public static function extract($props, $structure)
+    public static function define($data, $structure)
     {
-        $data = array();
+        $result = array();
         foreach ($structure as $key => $val) {
             if (is_numeric($key)) {
                 if (array_key_exists($val, $props)) {
-                    array_push($data, $props[$val]);
+                    array_push($result, $props[$val]);
                 } else {
-                    array_push($data, null);
+                    array_push($result, null);
                 }
             } else {
                 if (isset($props[$key])) {
-                    array_push($data, $props[$key]);
+                    array_push($result, $props[$key]);
                 } else {
-                    array_push($data, $val);
+                    array_push($result, $val);
                 }
             }
         }
-        return $data;
+        return $result;
     }
 
     protected static function merge($target, ...$sources)
@@ -77,7 +77,9 @@ abstract class Component
     {
         if ($element) {
             $type = gettype($element);
-            if (is_callable($element) && $element instanceof Closure) {
+            if ($type === 'array') {
+                self::print($element, $props);
+            } elseif (is_callable($element) && $element instanceof Closure) {
                 $element($props);
             } elseif ($type === 'object' && $element instanceof Component) {
                 $element->build($props);
@@ -95,76 +97,58 @@ abstract class Component
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
 
-    private static function getDefaultValue($type)
+    private static function getValue($default, $target, $source)
     {
-        switch ($type) {
-            case 'array':
-            case 'map':
-                return array();
-            case 'number':
-                return 0;
-            case 'boolean':
-                return false;
-            case 'string':
-                return '';
-            default:
-                return $type;
-        }
-    }
-
-    private static function getProp($type, $target, $source)
-    {
-        switch ($type) {
-            case 'array':
-                return array_merge($target, $source);
-            case 'map':
+        $type = gettype($default);
+        if ($type === 'array') {
+            if (self::isAssoc($default)) {
                 return self::merge($target, $source);
-            default:
-                return $source;
+            }
+            return array_merge($target, $source);
         }
+        return $source;
     }
 
-    public function __construct($props)
+    public function __construct($state)
     {
-        if (gettype($props) !== 'array' || !self::isAssoc($props)) {
-            die('Properties of component is not an associative array!');
+        if (gettype($state) !== 'array' || !self::isAssoc($state)) {
+            die('State of component is not an associative array!');
         }
-        $this->props = $props;
-        $this->propsStructure = array();
+        $this->state = $state;
+        $this->stateStructure = array();
     }
 
     public function __get($name)
     {
-        if (array_key_exists($name, $this->propsStructure)) {
-            return $this->props[$name];
+        if (array_key_exists($name, $this->stateStructure)) {
+            return $this->state[$name];
         }
         return null;
     }
 
-    protected function setProps($props)
+    protected function setState($data)
     {
-        if ($props && self::isAssoc($props)) {
-            foreach ($this->propsStructure as $prop => $type) {
-                if (array_key_exists($prop, $props)) {
-                    $this->props[$prop] = self::getProp($type, $this->props[$prop], $props[$prop]);
+        if ($data && self::isAssoc($data)) {
+            foreach ($this->stateStructure as $key => $default) {
+                if (array_key_exists($key, $data)) {
+                    $this->state[$key] = self::getValue($default, $this->state[$key], $data[$key]);
                 }
             }
         }
     }
 
-    protected function define($structure)
+    protected function update($structure)
     {
-        $this->propsStructure = self::merge($this->propsStructure, $structure);
-        foreach ($this->propsStructure as $prop => $type) {
-            if (!array_key_exists($prop, $this->props)) {
-                $this->props[$prop] = self::getDefaultValue($type);
+        $this->stateStructure = self::merge($this->stateStructure, $structure);
+        foreach ($this->stateStructure as $key => $default) {
+            if (!array_key_exists($key, $this->state)) {
+                $this->state[$key] = $default;
             }
         }
     }
 
     public function build($props)
     {
-        $this->setProps($props);
-        $this->render($props, ...self::extract($this->props, $this->propsStructure));
+        $this->render($props, ...self::define($this->state, $this->stateStructure));
     }
 }

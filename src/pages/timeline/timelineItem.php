@@ -5,12 +5,12 @@ require_once realpath(__DIR__ . '/../component.php');
 class TimelineItem extends Component
 {
 
-    public function __construct($props = array())
+    public function __construct($state = array())
     {
-        parent::__construct($props);
-        $this->define([
+        parent::__construct($state);
+        $this->update([
             'icon'=>false,
-            'content'=>'array'
+            'content'=>array()
         ]);
     }
 
@@ -28,7 +28,7 @@ class TimelineItem extends Component
             <?php } ?>
             </div>
             <div class="timeline-content">
-                <?php $this::print($content); ?>
+                <?php $this::print($content, $props); ?>
             </div>
         </div>
         <?php

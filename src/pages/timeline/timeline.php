@@ -5,10 +5,10 @@ require_once realpath(__DIR__ . '/../component.php');
 class Timeline extends Component
 {
 
-    public function __construct($props = array())
+    public function __construct($state = array())
     {
-        parent::__construct($props);
-        $this->define(['items'=>'array']);
+        parent::__construct($state);
+        $this->update([ 'items'=>array() ]);
     }
 
     protected function render($props, $items)

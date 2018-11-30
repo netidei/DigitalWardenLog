@@ -3,14 +3,14 @@
 require_once realpath(__DIR__ . '/includes/connection.php');
 require_once realpath(__DIR__ . '/includes/user.php');
 require_once realpath(__DIR__ . '/component.php');
-require_once realpath(__DIR__ . '/layout/menu.php');
-require_once realpath(__DIR__ . '/layout/menuSection.php');
+require_once realpath(__DIR__ . '/layout/content.php');
+require_once realpath(__DIR__ . '/layout/section.php');
 require_once realpath(__DIR__ . '/form/links.php');
 
 abstract class Page extends Component
 {
 
-    public function __construct($props = array())
+    public function __construct($state = array())
     {
         $db = new DB();
         $user = null;
@@ -22,8 +22,8 @@ abstract class Page extends Component
         } elseif ($pos === false) {
             $user = User::fromSession($db);
         }
-        parent::__construct($props);
-        $this->define([
+        parent::__construct($state);
+        $this->update([
             'title'=>'Digital Journal',
             'db'=>$db,
             'user'=>$user
@@ -32,29 +32,27 @@ abstract class Page extends Component
 
     protected function header($props, $db, $user)
     {
-        [$menuItems] = self::extract($props, ['menuItems'=>array()]);
-        $menu = new Menu([
-            'menuSections'=>[ new MenuSection([
-                'content'=>array_merge([ new ButtonLink([
-                    'content'=>'Digital Journal',
-                    'attributes'=>[
-                        'href'=>'index.php',
-                        'class'=>['text-bold']
-                    ],
-                ]) ], $menuItems)
-            ]) ]
-        ]);
+        [$items] = self::define($props, ['items'=>array()]);
+        $menu = new Content([ new Section([
+            'content'=>array_merge([ new ButtonLink([
+                'content'=>'Digital Journal',
+                'attributes'=>[
+                    'href'=>'index.php',
+                    'class'=>['text-bold']
+                ],
+            ]) ], $items)
+        ]) ]);
         if ($user) {
             $username = $user->getUsername();
-            $menu->addSections(new MenuSection([ 'content'=>[
+            $menu->addContent(new Section([ 'content'=>[
                 new DefaultLink(['content'=>$username, 'attributes'=>['href'=>'index.php']]),
                 new PrimaryLink(['content'=>'Exit', 'attributes'=>['href'=>'index.php?page=logout']])
             ] ]));
         }
         ?>
-            <header class="navbar">
-                <?php self::print($menu) ?>
-            </header>
+        <header class="navbar">
+            <?php self::print($menu, $props) ?>
+        </header>
         <?php
     }
 
@@ -62,8 +60,11 @@ abstract class Page extends Component
 
     protected function footer($props, $db, $user)
     {
+        [$content] = self::define($props, ['content'=>array()]);
         ?>
-        <footer></footer>
+        <footer>
+            <?php self::print($content, $props); ?>
+        </footer>
         <?php
     }
 

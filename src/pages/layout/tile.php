@@ -5,12 +5,12 @@ require_once realpath(__DIR__ . '/../component.php');
 class Tile extends Component
 {
 
-    public function __construct($props = array())
+    public function __construct($state = array())
     {
-        parent::__construct($props);
-        $this->define([
-            'title'=>'string',
-            'subtitles'=>'array'
+        parent::__construct($state);
+        $this->update([
+            'title'=>'Title',
+            'subtitles'=>array()
         ]);
     }
 

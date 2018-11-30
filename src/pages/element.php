@@ -5,8 +5,17 @@ require_once realpath(__DIR__ . '/component.php');
 class Element extends Component
 {
 
-    private $attributes;
-    private $attributesList;
+    public static function attributes($props)
+    {
+        [$attributes] = self::define($props, ['attributes'=>array()]);
+        if (count($attributes) > 0) {
+            $str = ' ';
+            foreach ($list as $name => $value) {
+                $str .= $name . '="' . self::toString($value) . '" ';
+            }
+            echo $str;
+        }
+    }
 
     private static function toString($value)
     {
@@ -18,43 +27,31 @@ class Element extends Component
         }
     }
 
-    public function __construct($props)
+    public function __construct($state)
     {
-        parent::__construct($props);
-        $this->attributes = array();
-        $this->attributesList = array('class', 'id', 'name');
-        [$attributesList, $attributes] = self::extract($props, ['attributesList'=>array(), 'attributes'=>array()]);
-        $this->addAttributesNames(...$attributesList);
-        $this->addAttributes($attributes);
+        parent::__construct($state);
+        $this->update([
+            'attributes'=>array(),
+            'attributesList'=>['class', 'id', 'name']
+        ]);
     }
 
     public function addAttributes($attributes)
     {
-        $this->attributes = $this->getAttributes($attributes);
+        $this->setState([ 'attributes'=>$this->getAttributes($attributes) ]);
     }
 
-    public function addAttributesNames(...$names)
+    public function addClasses(...$classes)
     {
-        $this->attributesList = array_unique(array_merge($this->attributesList, $names));
-    }
-
-    protected function attributes($props)
-    {
-        [$attributes] = self::extract($props, ['attributes'=>array()]);
-        $list = $this->getAttributes($attributes);
-        $str = ' ';
-        foreach ($list as $name => $value) {
-            $str .= $name . '="' . self::toString($value) . '" ';
-        }
-        echo $str;
+        $this->setState([ 'attributes'=>[ 'class'=>$classes ] ]);
     }
 
     private function getAttributes($attributes = array())
     {
-        $data = self::merge($this->attributes, $attributes);
-        foreach ($data as $attr => $val) {
-            if (!in_array($attr, $this->attributesList)) {
-                unset($data[$attr]);
+        $data = self::merge($this['attributes'], $attributes);
+        foreach ($data as $key => $val) {
+            if (!in_array($key, $this['attributesList'])) {
+                unset($data[$key]);
             }
         }
         return $data;

@@ -1,6 +1,6 @@
 <?php
 
-require_once realpath(__DIR__ . './page.php');
+require_once realpath(__DIR__ . '/page.php');
 
 class RegisterPage extends Page
 {
