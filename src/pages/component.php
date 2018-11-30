@@ -40,6 +40,11 @@ abstract class Component
         return $parameters;
     }
 
+    public static function GET($name)
+    {
+        return isset($_GET) && isset($_GET[$name]) ? $_GET[$name] : null;
+    }
+
     private static function write($element, $parameters = array())
     {
         if ($element) {

@@ -6,20 +6,20 @@ class DefaultLink extends Component
 {
 
     private const ATTRS = ['href'];
-    private const DATA = ['content'];
 
-    public function __construct($parameters)
+    public function __construct($parameters = array())
     {
         parent::__construct($parameters);
+        $this->addParameters(['content']);
         $this->addClasses('btn');
     }
 
     protected function render($parameters)
     {
-        extract(self::safe($parameters, self::DATA));
+        extract($this->safe($parameters));
         ?>
         <a <?php $this->attributes($parameters, self::ATTRS); ?>>
-            <?php $this->print($content); ?>
+            <?php self::print($content); ?>
         </a>
         <?php
     }

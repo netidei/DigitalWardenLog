@@ -6,11 +6,16 @@ class Label extends Component
 {
 
     private const ATTRS = ['for'];
-    private const DATA = ['content'];
+
+    public function __construct($parameters = array())
+    {
+        parent::__construct($parameters);
+        $this->addParameters(['content']);
+    }
 
     protected function render($parameters)
     {
-        extract(self::safe($parameters, self::DATA));
+        extract($this->safe($parameters));
         ?>
         <label <?php $this->attributes($parameters, self::ATTRS); ?> >
             <?php $this->print($content); ?>

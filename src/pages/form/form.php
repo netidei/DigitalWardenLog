@@ -6,11 +6,16 @@ class Form extends Component
 {
 
     private const ATTRS = ['method', 'action'];
-    private const DATA = ['content'];
+
+    public function __construct($parameters = array())
+    {
+        parent::__construct($parameters);
+        $this->addParameters(['content']);
+    }
 
     protected function render($parameters)
     {
-        extract(self::safe($parameters, self::DATA));
+        extract($this->safe($parameters));
         ?>
         <form <?php $this->attributes($parameters, self::ATTRS); ?>>
             <?php self::print($content); ?>
