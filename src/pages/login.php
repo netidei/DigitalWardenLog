@@ -4,6 +4,14 @@
 class LoginPage extends Page
 {
 
+    protected function header($parameters)
+    {
+        $parameters['menuItems'] = [ function ($parameters) { ?>
+            <a href="index.php?page=register" class="btn btn-link">Registration</a>
+        <?php } ];
+        parent::header($parameters);
+    }
+
     protected function content($parameters)
     {
         $db = $this->getDatabase();
@@ -38,7 +46,6 @@ class LoginPage extends Page
             </div>
             <?php if ($err) { echo $err . '<br/>'; } ?>
             <input class="btn btn-primary" type="submit" value="Log in">
-            
         </form>
         <?php
     }

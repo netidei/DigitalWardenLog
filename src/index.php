@@ -11,6 +11,9 @@ function getPage($name)
         case 'login':
             require_once realpath('./pages/login.php');
             return new LoginPage(['title'=>'Login page']);
+        case 'register':
+            require_once realpath('./pages/register.php');
+            return new RegisterPage(['title'=>'Registration page']);
         default:
             require_once realpath('./pages/main.php');
             return new MainPage(['title'=>'Main page']);
