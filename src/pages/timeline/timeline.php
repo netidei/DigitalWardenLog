@@ -5,12 +5,18 @@ require_once realpath(__DIR__ . '/../component.php');
 class Timeline extends Component
 {
 
+    public function __construct($parameters = array())
+    {
+        parent::__construct($parameters);
+        $this->addParameters(['items'=>array()]);
+    }
+
     protected function render($parameters)
     {
+        extract($this->safe($parameters));
         $icon = null;
-        $components = $parameters['items'];
-        foreach ($components as $component) {
-            self::print($component, array('icon'=>$icon));
+        foreach ($items as $item) {
+            self::print($item, ['icon'=>$icon]);
             if (!$icon) {
                 $icon = "icon-check";
             }

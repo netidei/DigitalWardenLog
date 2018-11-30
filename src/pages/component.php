@@ -45,6 +45,11 @@ abstract class Component
         return isset($_GET) && isset($_GET[$name]) ? $_GET[$name] : null;
     }
 
+    public static function POST($name)
+    {
+        return isset($_POST) && isset($_POST[$name]) ? $_POST[$name] : null;
+    }
+
     private static function write($element, $parameters = array())
     {
         if ($element) {
@@ -108,6 +113,8 @@ abstract class Component
         extract(self::ext($parameters, [self::PARAMS=>array()]));
         $this->parametersNames = ${self::PARAMS};
     }
+
+    abstract protected function render ($parameters);
 
     protected function safe($parameters)
     {

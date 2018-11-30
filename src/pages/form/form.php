@@ -10,7 +10,7 @@ class Form extends Component
     public function __construct($parameters = array())
     {
         parent::__construct($parameters);
-        $this->addParameters(['content']);
+        $this->addParameters(['content', 'groups'=>array()]);
     }
 
     protected function render($parameters)
@@ -18,7 +18,14 @@ class Form extends Component
         extract($this->safe($parameters));
         ?>
         <form <?php $this->attributes($parameters, self::ATTRS); ?>>
-            <?php self::print($content); ?>
+            <?php
+            foreach ($groups as $group) {
+                ?>
+                    <div class="form-group"><?php self::print($group); ?></div>
+                <?php
+            }
+                self::print($content);
+            ?>
         </form>
         <?php
     }

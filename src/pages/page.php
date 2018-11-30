@@ -14,10 +14,11 @@ abstract class Page extends Component
     public function __construct($parameters = array())
     {
         $db = new DB();
+        $user = null;
         session_start();
         $pos = in_array(self::GET('page'), ['login', 'register']);// is page available for unauthorized user
         if ((!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) && ($pos === false)) {
-            header("location: index.php&page=login");
+            header("location: index.php?page=login");
             exit;
         } elseif ($pos === false) {
             $user = User::fromSession($db);
@@ -46,7 +47,7 @@ abstract class Page extends Component
         if ($username = $user ? $user->getUsername() : false) {
             $menu->addSections(new MenuSection([ 'content'=>[
                 new DefaultLink(['href'=>'index.php', 'content'=>$username]),
-                new PrimaryLink(['href'=>'logout.php', 'content'=>'Exit'])
+                new PrimaryLink(['href'=>'index.php?page=logout', 'content'=>'Exit'])
             ] ]));
         }
         self::print($menu);
