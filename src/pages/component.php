@@ -6,6 +6,19 @@ abstract class Component
     protected $state;
     protected $stateStructure;
 
+    public static function Log(...$data)
+    {
+        foreach ($data as $element) {
+            if (gettype($element) === 'string') {
+                echo '<br/><b>' . $element . '</b><br/>';
+            } else {
+                echo('<pre class="code" data-lang="PHP"><code>');
+                print_r($element);
+                echo('</code></pre>');
+            }
+        }
+    }
+
     public static function GET($name)
     {
         return isset($_GET) && isset($_GET[$name]) ? $_GET[$name] : null;
@@ -97,16 +110,21 @@ abstract class Component
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
 
-    private static function getValue($default, $target, $source)
+    private static function toArray($data)
+    {
+        return gettype($data) === 'array' ? $data : array($data);
+    }
+
+    private static function getValue($now, $new, $default)
     {
         $type = gettype($default);
         if ($type === 'array') {
-            if (self::isAssoc($default)) {
-                return self::merge($target, $source);
+            if (self::isAssoc($now)) {
+                return self::merge($now, $new);
             }
-            return array_merge($target, $source);
+            return array_merge(self::toArray($now), self::toArray($new));
         }
-        return $source;
+        return $new;
     }
 
     public function __construct($state)
@@ -129,9 +147,9 @@ abstract class Component
     protected function setState($state)
     {
         if ($state && self::isAssoc($state)) {
-            foreach ($this->stateStructure as $key => $default) {
-                if (array_key_exists($key, $state)) {
-                    $this->state[$key] = self::getValue($default, $this->state[$key], $state[$key]);
+            foreach ($state as $key => $value) {
+                if (array_key_exists($key, $this->stateStructure)) {
+                    $this->state[$key] = self::getValue($this->state[$key], $value, $this->stateStructure[$key]);
                 }
             }
         }
