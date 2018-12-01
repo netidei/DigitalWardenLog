@@ -9,13 +9,10 @@ class DefaultLink extends Element
     {
         parent::__construct($state);
         $this->update([ 'content'=>array() ]);
-        $this->setState([
-            'attributesList'=>['href'],
-            'attributes'=>[ 'class'=>['btn'] ]
-        ]);
+        $this->addClasses('btn');
     }
 
-    protected function render($props, $attrs, $attrList, $content)
+    protected function render($props, $attrs, $content)
     {
         ?>
         <a <?php self::attributes($attrs) ?>>

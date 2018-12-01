@@ -16,7 +16,7 @@ class Section extends Element
         $this->setState([ 'centered'=>$val ]);
     }
 
-    protected function render($props, $attrs, $attrsList, $content, $centered)
+    protected function render($props, $attrs, $content, $centered)
     {
         $data = self::merge($attrs, [ 'class'=>[$centered ? 'navbar-center' : 'navbar-section'] ]);
         ?>

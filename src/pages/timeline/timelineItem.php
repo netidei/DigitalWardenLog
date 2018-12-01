@@ -28,7 +28,7 @@ class TimelineItem extends Component
             <?php } ?>
             </div>
             <div class="timeline-content">
-                <?php $this::print($content, $props); ?>
+                <?php self::print($content, $props); ?>
             </div>
         </div>
         <?php

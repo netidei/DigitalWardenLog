@@ -34,14 +34,14 @@ abstract class Component
         $result = array();
         foreach ($structure as $key => $val) {
             if (is_numeric($key)) {
-                if (array_key_exists($val, $props)) {
-                    array_push($result, $props[$val]);
+                if (array_key_exists($val, $data)) {
+                    array_push($result, $data[$val]);
                 } else {
                     array_push($result, null);
                 }
             } else {
-                if (isset($props[$key])) {
-                    array_push($result, $props[$key]);
+                if (isset($data[$key])) {
+                    array_push($result, $data[$key]);
                 } else {
                     array_push($result, $val);
                 }
@@ -126,12 +126,12 @@ abstract class Component
         return null;
     }
 
-    protected function setState($data)
+    protected function setState($state)
     {
-        if ($data && self::isAssoc($data)) {
+        if ($state && self::isAssoc($state)) {
             foreach ($this->stateStructure as $key => $default) {
-                if (array_key_exists($key, $data)) {
-                    $this->state[$key] = self::getValue($default, $this->state[$key], $data[$key]);
+                if (array_key_exists($key, $state)) {
+                    $this->state[$key] = self::getValue($default, $this->state[$key], $state[$key]);
                 }
             }
         }
@@ -149,6 +149,7 @@ abstract class Component
 
     public function build($props)
     {
-        $this->render($props, ...self::define($this->state, $this->stateStructure));
+        $state = self::define($this->state, $this->stateStructure);
+        $this->render($props, ...$state);
     }
 }
