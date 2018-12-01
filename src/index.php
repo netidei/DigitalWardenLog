@@ -1,15 +1,24 @@
 <?php
-  require_once(realpath('./includes/page.php'));
-  require_once(realpath('./components/timeline.php'));
-  
-  $page = new Page();
-  $page->init('Main page');
-?>
+require_once realpath('./pages/component.php');
 
-<h1>Roadmap</h1>
+function getPage($name)
+{
+    switch ($name) {
+        case 'logout':
+            session_start();
+            $_SESSION = array();
+            session_destroy();
+        case 'login':
+            require_once realpath('./pages/login.php');
+            return new LoginPage(['title'=>'Login page']);
+        case 'register':
+            require_once realpath('./pages/register.php');
+            return new RegisterPage(['title'=>'Registration page']);
+        default:
+            require_once realpath('./pages/main.php');
+            return new MainPage(['title'=>'Main page']);
+    }
+}
 
-<div class="timeline">
-  <?php Timeline($page->getDatabase()) ?>
-</div>
-
-<?php $page->build(); ?>
+$page = getPage(Component::GET('page'));
+Component::print($page);
