@@ -70,7 +70,7 @@ abstract class Component
                 if (array_key_exists($key, $target)) {
                     $type = gettype($target[$key]);
                     if ($type === 'array') {
-                        if (self::isAssoc($target[$key])) {
+                        if (self::isMap($target[$key])) {
                             $target[$key] = self::merge($target[$key], $val);
                         } else {
                             $target[$key] = array_unique(array_merge($target[$key], $val));
@@ -102,7 +102,7 @@ abstract class Component
         }
     }
 
-    private static function isAssoc(array $arr)
+    private static function isMap(array $arr)
     {
         if (array() === $arr) {
             return false;
@@ -119,7 +119,7 @@ abstract class Component
     {
         $type = gettype($default);
         if ($type === 'array') {
-            if (self::isAssoc($now)) {
+            if (self::isMap($now)) {
                 return self::merge($now, $new);
             }
             return array_merge(self::toArray($now), self::toArray($new));
@@ -129,7 +129,7 @@ abstract class Component
 
     public function __construct($state)
     {
-        if (gettype($state) !== 'array' || !self::isAssoc($state)) {
+        if (gettype($state) !== 'array' || !self::isMap($state)) {
             die('State of component is not an associative array!');
         }
         $this->state = $state;
@@ -146,7 +146,7 @@ abstract class Component
 
     protected function setState($state)
     {
-        if ($state && self::isAssoc($state)) {
+        if ($state && self::isMap($state)) {
             foreach ($state as $key => $value) {
                 if (array_key_exists($key, $this->stateStructure)) {
                     $this->state[$key] = self::getValue($this->state[$key], $value, $this->stateStructure[$key]);

@@ -16,6 +16,7 @@ class TimelineItem extends Component
 
     protected function render($props, $icon, $content)
     {
+        [$icon] = self::define($props, ['icon'=>$icon]);
         ?>
         <div class="timeline-item">
             <div class="timeline-left">
