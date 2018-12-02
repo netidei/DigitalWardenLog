@@ -41,7 +41,7 @@ class Router extends Component
             $user = User::fromSession($db);
         }
         parent::__construct();
-        $this->update([
+        $this->define([
             'db'=>$db,
             'user'=>$user
         ]);
@@ -49,7 +49,7 @@ class Router extends Component
 
     public function render($props, $db, $user)
     {
-        [$page] = self::define($props, ['page'=>null]);
+        [$page] = self::extract($props, ['page'=>null]);
         self::print(self::Page($db, $user, $page));
     }
 }

@@ -43,7 +43,7 @@ abstract class Component
         }
     }
 
-    public static function define($data, $structure)
+    public static function extract($data, $structure)
     {
         $result = array();
         foreach ($structure as $key => $val) {
@@ -64,7 +64,7 @@ abstract class Component
         return $result;
     }
 
-    public static function merge($target, ...$sources)
+    public static function update(&$target, ...$sources)
     {
         foreach ($sources as $source) {
             foreach ($source as $key => $val) {
@@ -72,7 +72,7 @@ abstract class Component
                     $type = gettype($target[$key]);
                     if ($type === 'array') {
                         if (self::isMap($target[$key])) {
-                            $target[$key] = self::merge($target[$key], $val);
+                            self::update($target[$key], $val);
                         } else {
                             $target[$key] = array_unique(array_merge($target[$key], $val));
                         }
@@ -118,7 +118,7 @@ abstract class Component
         $type = gettype($default);
         if ($type === 'array') {
             if (self::isMap($now)) {
-                return self::merge($now, $new);
+                return self::update($now, $new);
             }
             return array_merge(self::toArray($now), self::toArray($new));
         }
@@ -150,9 +150,9 @@ abstract class Component
         }
     }
 
-    protected function update($structure)
+    protected function define($structure)
     {
-        $this->stateStructure = self::merge($this->stateStructure, $structure);
+        self::update($this->stateStructure, $structure);
         foreach ($this->stateStructure as $key => $default) {
             if (!array_key_exists($key, $this->state)) {
                 $this->state[$key] = $default;
@@ -162,7 +162,7 @@ abstract class Component
 
     public function build($props)
     {
-        $state = self::define($this->state, $this->stateStructure);
+        $state = self::extract($this->state, $this->stateStructure);
         $this->render($props, ...$state);
     }
 }

@@ -8,7 +8,7 @@ abstract class Page extends Component
     public function __construct($db, $user, $title = null)
     {
         parent::__construct([ 'title'=>$title ]);
-        $this->update([
+        $this->define([
             'db'=>$db,
             'user'=>$user,
             'title'=>'Digital Journal'
@@ -17,7 +17,7 @@ abstract class Page extends Component
 
     protected function header($props, $db, $user)
     {
-        [$items, $itemsProps] = self::define($props, ['items'=>array(), 'itemsProps'=>array()]);
+        [$items, $itemsProps] = self::extract($props, ['items'=>array(), 'itemsProps'=>array()]);
         ?>
         <header class="navbar">
             <section class="navbar-section">
@@ -38,7 +38,7 @@ abstract class Page extends Component
 
     protected function footer($props, $db, $user)
     {
-        [$content, $contentProps] = self::define($props, ['content'=>array(), 'contentProps'=>array()]);
+        [$content, $contentProps] = self::extract($props, ['content'=>array(), 'contentProps'=>array()]);
         ?>
         <footer>
             <?php self::print($content, $contentProps); ?>
@@ -61,7 +61,7 @@ abstract class Page extends Component
             <body>
                 <div class="container">
                     <?php
-                        [$header, $content, $footer] = self::define($props, ['header'=>array(), 'content'=>array(), 'footer'=>array()]);
+                        [$header, $content, $footer] = self::extract($props, ['header'=>array(), 'content'=>array(), 'footer'=>array()]);
                         $this->header($header, $db, $user);
                         $this->content($content, $db, $user);
                         $this->footer($footer, $db, $user);

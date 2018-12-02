@@ -29,7 +29,7 @@ class Element extends Component
     public function __construct($state)
     {
         parent::__construct($state);
-        $this->update([ 'attributes'=>array() ]);
+        $this->define([ 'attributes'=>array() ]);
     }
 
     public function addAttributes($attributes)

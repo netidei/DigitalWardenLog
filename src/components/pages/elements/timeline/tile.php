@@ -4,7 +4,7 @@ require_once realpath(__DIR__ . '/../element.php');
 
 function Tile($props = null)
 {
-    [$title, $subtitles] = Element::define($props, ['title'=>'Title', 'subtitles'=>array()]);
+    [$title, $subtitles] = Element::extract($props, ['title'=>'Title', 'subtitles'=>array()]);
     ?>
     <div class="tile-content">
     <p class="tile-title"><?= $title; ?></p>

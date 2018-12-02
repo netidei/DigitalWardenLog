@@ -7,7 +7,7 @@ class LoginPage extends Page
 
     protected function header($props, $db, $user)
     {
-        $props = self::merge($props, [
+        self::update($props, [
             'items'=> function ($props = null) { ?>
                 <a href="index.php?page=register" class="btn btn-link">Registration</a>
             <?php }

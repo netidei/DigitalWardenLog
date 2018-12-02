@@ -4,8 +4,8 @@ require_once realpath(__DIR__ . '/../element.php');
 
 function TimelineItem($props = null)
 {
-    [$content, $icon, $element, $elementProps] = Element::define($props, ['content'=>array(), 'icon'=>null, 'element'=>null, 'elementProps'=>array()]);
-    $elementProps = Element::merge($elementProps, $content);
+    [$content, $icon, $element, $elementProps] = Element::extract($props, ['content'=>array(), 'icon'=>null, 'element'=>null, 'elementProps'=>array()]);
+    Element::update($elementProps, $content);
     ?>
     <div class="timeline-item">
         <div class="timeline-left">
