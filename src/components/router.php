@@ -11,7 +11,7 @@ class Router extends Component
     {
         $page = null;
         try {
-            $page = require_once realpath(__DIR__ . ($name ? "/pages/$name.php" : '/pages/main.php'));
+            $page = @include_once realpath(__DIR__ . ($name ? "/pages/$name.php" : '/pages/main.php'));
         } finally {
             if (!$page) {
                 $page = require_once realpath(__DIR__ . '/pages/404.php');

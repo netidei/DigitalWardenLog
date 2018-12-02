@@ -38,9 +38,10 @@ abstract class Page extends Component
 
     protected function footer($props, $db, $user)
     {
+        [$content, $contentProps] = self::define($props, ['content'=>array(), 'contentProps'=>array()]);
         ?>
         <footer>
-            <?php self::print($props); ?>
+            <?php self::print($content, $contentProps); ?>
         </footer>
         <?php
     }

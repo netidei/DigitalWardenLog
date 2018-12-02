@@ -1,9 +1,9 @@
 <?php
 
 require_once realpath(__DIR__ . '/page.php');
-require_once realpath(__DIR__ . '/../elements/timeline/tile.php');
-require_once realpath(__DIR__ . '/../elements/timeline/timelineItem.php');
-require_once realpath(__DIR__ . '/../elements/timeline/timeline.php');
+require_once realpath(__DIR__ . '/elements/timeline/tile.php');
+require_once realpath(__DIR__ . '/elements/timeline/timelineItem.php');
+require_once realpath(__DIR__ . '/elements/timeline/timeline.php');
 
 class MainPage extends Page
 {
