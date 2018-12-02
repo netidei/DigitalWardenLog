@@ -9,15 +9,11 @@ class Router extends Component
 
     private static function createPage($db, $user, $name)
     {
-        $page = null;
-        try {
-            $page = @include_once realpath(__DIR__ . ($name ? "/pages/$name.php" : '/pages/main.php'));
-        } finally {
-            if (!$page) {
-                $page = require_once realpath(__DIR__ . '/pages/404.php');
-            }
+        $path = realpath(__DIR__ . '/pages/' . ($name ? $name :'main') . '.php');
+        if (file_exists($path)) {
+            return require_once $path;
         }
-        return $page;
+        return require_once realpath(__DIR__ . '/pages/404.php');
     }
 
     private static function Page($db, $user = null, $name = null)

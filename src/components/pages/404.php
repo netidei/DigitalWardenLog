@@ -13,7 +13,7 @@ class EmptyPage extends Page
                 <i class="icon icon-search"></i>
             </div>
             <p class="empty-title h3">404 Error</p>
-            <p class="empty-subtitle">Something went wron</p>
+            <p class="empty-subtitle">Something went wrong</p>
             <div class="empty-action">
                 <a class="btn btn-primary" href="index.php">Return to Home</a>
             </div>
