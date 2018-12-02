@@ -127,11 +127,8 @@ abstract class Component
         return $new;
     }
 
-    public function __construct($state)
+    public function __construct($state = array())
     {
-        if (gettype($state) !== 'array' || !self::isMap($state)) {
-            die('State of component is not an associative array!');
-        }
         $this->state = $state;
         $this->stateStructure = array();
     }

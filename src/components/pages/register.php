@@ -41,3 +41,5 @@ class RegisterPage extends Page
         <?php
     }
 }
+
+return new RegisterPage($db, $user, 'Register page');

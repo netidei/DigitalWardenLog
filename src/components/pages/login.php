@@ -1,5 +1,6 @@
 <?php
-    require_once realpath(__DIR__ . '/page.php');
+
+require_once realpath(__DIR__ . '/page.php');
 
 class LoginPage extends Page
 {
@@ -49,3 +50,5 @@ class LoginPage extends Page
         <?php
     }
 }
+
+return new LoginPage($db, $user, 'Login page');
