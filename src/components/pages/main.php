@@ -1,7 +1,7 @@
 <?php
 
 require_once realpath(__DIR__ . '/page.php');
-require_once realpath(__DIR__ . '/../elements/layout/tile.php');
+require_once realpath(__DIR__ . '/../elements/timeline/tile.php');
 require_once realpath(__DIR__ . '/../elements/timeline/timelineItem.php');
 require_once realpath(__DIR__ . '/../elements/timeline/timeline.php');
 
@@ -26,14 +26,12 @@ class MainPage extends Page
                 array_push($subtitles, $subtitle[0]);
             }
             // Add Event
-            $tile = new Tile(['title'=>$title, 'subtitles'=>$subtitles]);
-            array_push($events, new TimelineItem(['content'=>$tile]));
+            array_push($events, ['title'=>$title, 'subtitles'=>$subtitles]);
         }
-        $timeline = new Timeline(['items'=>$events]);
         ?>
         <h1>Roadmap</h1>
         <div class="timeline">
-            <?php self::print($timeline) ?>
+            <?php self::print('Timeline', ['element'=>'TimelineItem', 'items'=>$events, 'elementProps'=>['element'=>'Tile']]); ?>
         </div>
         <?php
     }

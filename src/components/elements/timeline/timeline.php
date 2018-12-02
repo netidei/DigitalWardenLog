@@ -1,24 +1,16 @@
 <?php
 
-require_once realpath(__DIR__ . '/../../component.php');
+require_once realpath(__DIR__ . '/../element.php');
 
-class Timeline extends Component
+function Timeline($props = null)
 {
-
-    public function __construct($state = array())
-    {
-        parent::__construct($state);
-        $this->update([ 'items'=>array() ]);
-    }
-
-    protected function render($props, $items)
-    {
-        $icon = null;
-        foreach ($items as $item) {
-            self::print($item, ['icon'=>$icon]);
-            if (!$icon) {
-                $icon = "icon-check";
-            }
+    [$element, $items, $elementProps] = Element::define($props, ['element'=>null, 'items'=>array(), 'elementProps'=>array()]);
+    $icon = null;
+    foreach ($items as $item) {
+        $data = Element::merge($elementProps, ['content'=>$item, 'icon'=>$icon]);
+        Element::print($element, $data);
+        if (!$icon) {
+            $icon = "icon-check";
         }
     }
 }

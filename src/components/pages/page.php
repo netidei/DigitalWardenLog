@@ -1,9 +1,6 @@
 <?php
 
 require_once realpath(__DIR__ . '/../component.php');
-require_once realpath(__DIR__ . '/../elements/layout/content.php');
-require_once realpath(__DIR__ . '/../elements/layout/section.php');
-require_once realpath(__DIR__ . '/../elements/form/links.php');
 
 abstract class Page extends Component
 {
@@ -20,26 +17,19 @@ abstract class Page extends Component
 
     protected function header($props, $db, $user)
     {
-        [$items] = self::define($props, ['items'=>array()]);
-        $menu = new Content([ new Section([
-            'content'=>array_merge([ new ButtonLink([
-                'content'=>'Digital Journal',
-                'attributes'=>[
-                    'href'=>'index.php',
-                    'class'=>['text-bold']
-                ],
-            ]) ], $items)
-        ]) ]);
-        if ($user) {
-            $username = $user->getUsername();
-            $menu->addContent(new Section([ 'content'=>[
-                new DefaultLink(['content'=>$username, 'attributes'=>['href'=>'index.php']]),
-                new PrimaryLink(['content'=>'Exit', 'attributes'=>['href'=>'index.php?page=logout']])
-            ] ]));
-        }
+        [$items, $itemsProps] = self::define($props, ['items'=>array(), 'itemsProps'=>array()]);
         ?>
         <header class="navbar">
-            <?php self::print($menu, $props) ?>
+            <section class="navbar-section">
+                <a class="btn btn-link text-bold" href="index.php">Digital Journal</a>
+                <?php self::print($items, $itemsProps); ?>
+            </section>
+            <?php if ($user) { ?>
+                <section class="navbar-section">
+                    <a class="btn" href="index.php"><?= $user->getUsername() ?></a>
+                    <a class="btn btn-primary" href="index.php?page=logout">Exit</a>
+                </section>
+            <?php } ?>
         </header>
         <?php
     }
@@ -48,10 +38,9 @@ abstract class Page extends Component
 
     protected function footer($props, $db, $user)
     {
-        [$content] = self::define($props, ['content'=>array()]);
         ?>
         <footer>
-            <?php self::print($content, $props); ?>
+            <?php self::print($props); ?>
         </footer>
         <?php
     }
@@ -71,9 +60,10 @@ abstract class Page extends Component
             <body>
                 <div class="container">
                     <?php
-                        $this->header($props, $db, $user);
-                        $this->content($props, $db, $user);
-                        $this->footer($props, $db, $user);
+                        [$header, $content, $footer] = self::define($props, ['header'=>array(), 'content'=>array(), 'footer'=>array()]);
+                        $this->header($header, $db, $user);
+                        $this->content($content, $db, $user);
+                        $this->footer($footer, $db, $user);
                     ?>
                 </div>
             </body>
