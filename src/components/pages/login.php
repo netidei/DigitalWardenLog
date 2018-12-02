@@ -1,14 +1,17 @@
 <?php
-    require_once realpath(__DIR__ . '/page.php');
+
+require_once realpath(__DIR__ . '/page.php');
 
 class LoginPage extends Page
 {
 
     protected function header($props, $db, $user)
     {
-        $props['items'] = [ function ($props) { ?>
-            <a href="index.php?page=register" class="btn btn-link">Registration</a>
-        <?php } ];
+        self::update($props, [
+            'items'=> function ($props = null) { ?>
+                <a href="index.php?page=register" class="btn btn-link">Registration</a>
+            <?php }
+        ]);
         parent::header($props, $db, $user);
     }
 
@@ -49,3 +52,5 @@ class LoginPage extends Page
         <?php
     }
 }
+
+return new LoginPage($db, $user, 'Login page');

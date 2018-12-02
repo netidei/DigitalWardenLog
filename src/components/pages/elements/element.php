@@ -1,6 +1,6 @@
 <?php
 
-require_once realpath(__DIR__ . '/component.php');
+require_once realpath(__DIR__ . '/../../component.php');
 
 class Element extends Component
 {
@@ -29,7 +29,7 @@ class Element extends Component
     public function __construct($state)
     {
         parent::__construct($state);
-        $this->update([ 'attributes'=>array() ]);
+        $this->define([ 'attributes'=>array() ]);
     }
 
     public function addAttributes($attributes)
