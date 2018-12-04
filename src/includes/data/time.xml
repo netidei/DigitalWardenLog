@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rows>
+  <row  id="1"
+        time_begin="08:00:00"
+        time_end="09:30:00"
+  />
+  <row  id="2"
+        time_begin="09:40:00"
+        time_end="11:10:00"
+  />
+  <row  id="3"
+        time_begin="11:20:00"
+        time_end="12:50:00"
+  />
+  <row  id="4"
+        time_begin="13:50:00"
+        time_end="15:20:00"
+  />
+  <row  id="5"
+        time_begin="15:30:00"
+        time_end="17:00:00"
+  />
+  <row  id="6"
+        time_begin="17:10:00"
+        time_end="18:40:00"
+  />
+  <row  id="7"
+        time_begin="18:50:00"
+        time_end="20:20:00"
+  />
+  <row  id="8"
+        time_begin="20:30:00"
+        time_end="22:00:00"
+  />
+<rows/>

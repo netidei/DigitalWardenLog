@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rows>
+  <row  id="1"
+        group="1"
+        record="1"
+  />
+  <row  id="2"
+        group="2"
+        record="1"
+  />
+<rows/>

@@ -24,9 +24,15 @@
       `description` VARCHAR(256) NOT NULL ,
       `approved` BOOLEAN NOT NULL ,
       `was_it` BOOLEAN NOT NULL ,
-      `reason` VARCHAR(256) NOT NULL ,
-      `group` INT NOT NULL ,
+      `reason` VARCHAR(256) ,
       `type` INT NOT NULL ,
+      PRIMARY KEY (`id`)
+    ) ENGINE = InnoDB;',
+    // Flow table
+    'CREATE TABLE `flow` (
+      `id` INT NOT NULL ,
+      `group` INT NOT NULL ,
+      `record` INT NOT NULL ,
       PRIMARY KEY (`id`)
     ) ENGINE = InnoDB;',
     // Subject table
@@ -54,7 +60,7 @@
       `record` INT NOT NULL ,
       `student` INT NOT NULL ,
       `mark` BOOLEAN NOT NULL ,
-      `reason` VARCHAR(256) NOT NULL ,
+      `reason` VARCHAR(256) ,
       PRIMARY KEY (`id`)
     ) ENGINE = InnoDB;',
     // Student table
