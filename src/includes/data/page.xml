@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rows>
+  <row id="1" name="404" role="0" access_type="1" />
+  <row id="2" name="login" role="1" access_type="0" />
+  <row id="3" name="logout" role="2" access_type="0" />
+  <row id="4" name="main" role="3" access_type="1" />
+</rows>
