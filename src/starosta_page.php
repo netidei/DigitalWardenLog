@@ -4,7 +4,7 @@
   
   $page = new Page();
   $page->init('Main page');
-  $page->getDatebase();
+  //$page->getDatebase();
 ?>
   <div class="columns">
     <div class="column col-3">
