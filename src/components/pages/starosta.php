@@ -1,10 +1,12 @@
 <?php
-  require_once(realpath('./includes/page.php'));
-  require_once(realpath('./components/timeline.php'));
-  
-  $page = new Page();
-  $page->init('Main page');
-  //$page->getDatebase();
+
+require_once realpath(__DIR__ . '/page.php');
+
+class StarostaPage extends Page
+{
+
+    protected function content($props, $db, $user)
+    {
 ?>
   <div class="columns">
     <div class="column col-3">
@@ -95,4 +97,8 @@
   <button class="btn btn-primary" type="submit">Добавить</button>
   </div>
   </div>
-<?php $page->build(); ?>
+  <?php
+    }
+}
+
+return new StarostaPage($db, $user, 'Страница старосты');
