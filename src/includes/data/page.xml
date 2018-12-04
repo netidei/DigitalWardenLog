@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rows>
-  <row id="1" name="404" role="0" access_type="1" />
-  <row id="2" name="login" role="1" access_type="0" />
-  <row id="3" name="logout" role="2" access_type="0" />
-  <row id="4" name="main" role="3" access_type="1" />
-  <row id="5" name="register" role="3" access_type="0" />
+  <row id="1" name="404" title="Page not found" role="0" access_type="1" />
+  <row id="2" name="login" title="Login page" role="1" access_type="0" />
+  <row id="3" name="logout" title="Logout page" role="2" access_type="0" />
+  <row id="4" name="main" title="Home page" role="3" access_type="1" />
+  <row id="5" name="register" title="Register page" role="3" access_type="0" />
 </rows>

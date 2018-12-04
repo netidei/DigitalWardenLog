@@ -5,14 +5,17 @@ require_once realpath(__DIR__ . '/../component.php');
 abstract class Page extends Component
 {
 
-    public function __construct($db, $user, $title = null)
+    private $name;
+
+    public function __construct($db, $user, $data)
     {
-        parent::__construct([ 'title'=>$title ]);
+        parent::__construct();
         $this->define([
             'db'=>$db,
             'user'=>$user,
-            'title'=>'Digital Journal'
+            'title'=>$data['title']
         ]);
+        $this->name = $data['name'];
     }
 
     protected function header($props, $db, $user)

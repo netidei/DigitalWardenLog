@@ -17,4 +17,4 @@ class LogoutPage extends Page
     }
 }
 
-return new LogoutPage($db, $user, 'Logout page');
+return new LogoutPage($db, $user, $data);

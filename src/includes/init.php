@@ -18,6 +18,7 @@
     'CREATE TABLE `page` (
       `id` INT NOT NULL ,
       `name` VARCHAR(16) NOT NULL ,
+      `title` VARCHAR(32) NOT NULL ,
       `role` INT NOT NULL ,
       `access_type` INT NOT NULL ,
       PRIMARY KEY (`id`)

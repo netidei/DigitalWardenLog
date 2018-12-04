@@ -25,18 +25,13 @@ class Router extends Component
     private function hasAccess($data)
     {
         $role = $this->state['user'] ? $this->state['user']->getRole() : 4;
-        if ($role == '0' || $data[3] == '0') {
+        if ($role == '0' || $data['access_type'] == '0') {
             return true;
         } elseif ($role == '4') {
             return false;
         }
-        $list = array();
-        $listData = $this->state['db']->select('access_list', '`role`', '`page` = ' . $data[0]);
-        while ($row = $listData->row()) {
-            array_push($list, $row[0]);
-        }
-        $inList = in_array($role, $list) || (count($list) > 0 && $list[0] == '0');
-        return $data[3] == '1' ? $inList : !$inList;
+        $inList = $this->state['db']->select('access_list', '*', '`page` = ' . $data['id'] . ' and (`role` = 0 or `role` = '. $role .')')->count() > 0;
+        return $data['access_type'] == '1' ? $inList : !$inList;
     }
 
     private function getPage($where)
@@ -44,6 +39,13 @@ class Router extends Component
         $pageData = $this->state['db']->select('page', '*', $where);
         if ($pageData->count() > 0) {
             $data = $pageData->row();
+            $data = [
+                'id'=>$data[0],
+                'name'=>$data[1],
+                'title'=>$data[2],
+                'role'=>$data[3],
+                'access_type'=>$data[4]
+            ];
             if ($this->hasAccess($data)) {
                 return $data;
             } else {
@@ -67,8 +69,7 @@ class Router extends Component
     {
         [$page] = self::extract($props, ['page'=>null]);
         $data = $page ? $this->getPageByName($page) : $this->getPageByRole(3); // Default page
-        $name = $data[1];
-        $path = realpath(__DIR__ . "/pages/$name.php");
+        $path = realpath(__DIR__ . '/pages/' . $data['name'] . '.php');
         self::print(require_once $path);
     }
 }

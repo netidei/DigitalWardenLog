@@ -42,4 +42,4 @@ class RegisterPage extends Page
     }
 }
 
-return new RegisterPage($db, $user, 'Register page');
+return new RegisterPage($db, $user, $data);
