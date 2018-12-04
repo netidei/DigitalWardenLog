@@ -38,8 +38,16 @@ class StarostaPage extends Page
       <label class="form-label"  for="validationDefaultUsername">Преподаватель</label>
       <select name="subject" class="form-select form-input" required> <!--Supplement an id here instead of using 'name'-->
       <option disabled value="" selected="">Выбрать..</option> 
-        <option value="value1">Ермоленко А.В.</option> 
-        <option value="value2">Бабенко В.В.</option>
+      <option value="value1">Ермоленко А.В.</option> 
+      <option value="value2">Бабенко В.В.</option>
+      <?php
+        //echo("<script>alert(\"Это сообщение1\");</script>");
+        $res =$db->select("teacher","*");
+        echo("<script>alert(\"".$res->count()."\");</script>");
+        while ($row = $res->row()) {
+          echo ("<option value=\"".$row["id"]."\">".$row["name"]."</option>");
+        }
+      ?>
     </select>
   </div>
   </div>
