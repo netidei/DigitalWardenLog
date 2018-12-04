@@ -22,32 +22,21 @@ class Router extends Component
         ]);
     }
 
-    protected function render($props, $db, $user)
-    {
-        [$page] = self::extract($props, ['page'=>null]);
-        $data = $page ? $this->getPageByName($page) : $this->getPageByRole(3); // Default page
-        $name = $data[1];
-        $path = realpath(__DIR__ . "/pages/$name.php");
-        self::print(require_once $path);
-    }
-
     private function hasAccess($data)
     {
         $role = $this->state['user'] ? $this->state['user']->getRole() : 4;
-        if ($role == '0') {
+        if ($role == '0' || $data[3] == '0') {
             return true;
+        } elseif ($role == '4') {
+            return false;
         }
-        switch ($data[3]) {
-            case '0':
-                return true;
-            default:
-                if ($role == '4') {
-                    return false;
-                }
-                $list = $this->getAccessList($data[0]);
-                $inList = in_array($role, $list) || (count($list) > 0 && $list[0] == '0');
-                return $data[3] == '1' ? $inList : !$inList;
+        $list = array();
+        $listData = $this->state['db']->select('access_list', '`role`', '`page` = ' . $data[0]);
+        while ($row = $listData->row()) {
+            array_push($list, $row[0]);
         }
+        $inList = in_array($role, $list) || (count($list) > 0 && $list[0] == '0');
+        return $data[3] == '1' ? $inList : !$inList;
     }
 
     private function getPage($where)
@@ -74,13 +63,12 @@ class Router extends Component
         return $this->getPage('`name` = "' . $name . '"');
     }
 
-    private function getAccessList($id)
+    protected function render($props, $db, $user)
     {
-        $data = array();
-        $list = $this->state['db']->select('access_list', '`role`', '`page` = ' . $id);
-        while ($row = $list->row()) {
-            array_push($data, $row[0]);
-        }
-        return $data;
+        [$page] = self::extract($props, ['page'=>null]);
+        $data = $page ? $this->getPageByName($page) : $this->getPageByRole(3); // Default page
+        $name = $data[1];
+        $path = realpath(__DIR__ . "/pages/$name.php");
+        self::print(require_once $path);
     }
 }
