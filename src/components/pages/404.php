@@ -22,4 +22,4 @@ class EmptyPage extends Page
     }
 }
 
-return new EmptyPage($db, $user, $name);
+return new EmptyPage($db, $user, $data);

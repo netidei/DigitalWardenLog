@@ -14,6 +14,22 @@
       PRIMARY KEY (`id`),
       UNIQUE (`username`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;',
+    // Page
+    'CREATE TABLE `page` (
+      `id` INT NOT NULL ,
+      `name` VARCHAR(16) NOT NULL ,
+      `title` VARCHAR(32) NOT NULL ,
+      `role` INT NOT NULL ,
+      `access_type` INT NOT NULL ,
+      PRIMARY KEY (`id`)
+    ) ENGINE = InnoDB;',
+    // Access_list table
+    'CREATE TABLE `access_list` (
+      `id` INT NOT NULL ,
+      `page` INT NOT NULL ,
+      `role` INT NOT NULL ,
+      PRIMARY KEY (`id`)
+    ) ENGINE = InnoDB;',
     // Record table
     'CREATE TABLE `record` (
       `id` INT NOT NULL ,
@@ -80,12 +96,12 @@
       $connection->query($command) or die("Error on query: $command");
 }
     // Load data
-    $tables = array('user', 'roadmap_event', 'event_subtitle');
-    foreach ($tables as $table)
+    $tables = ['user', 'page', 'access_list', 'roadmap_event', 'event_subtitle', 'flow', 'record', 'student', 'subject', 'teacher', 'time', 'visit'];
+    foreach ($tables as $alias => $table)
     {
-        $path = quotemeta(realpath(__DIR__ . "/data/$table.xml"));
-        $query = "LOAD XML LOCAL INFILE '$path' INTO TABLE `$dbName`.`$table`;";
-        $err = $connection->query($query) or die("Error on query: $query");
+      $path = addslashes(realpath(__DIR__ . '/data/' . (is_numeric($alias) ? $table : $alias) . '.xml'));
+      $query = "LOAD XML LOCAL INFILE '$path' INTO TABLE `$dbName`.`$table`;";
+      $err = $connection->query($query) or die("Error on query: $query");
     }
     // Delete this script
     unlink(realpath(__DIR__ . '/init.php'));
