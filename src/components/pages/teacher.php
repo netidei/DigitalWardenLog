@@ -1,10 +1,11 @@
 <?php
-  require_once(realpath('./includes/page.php'));
-  require_once(realpath('./components/timeline.php'));
-  
-  $page = new Page();
-  $page->init('Main page');
-?>
+
+require_once realpath(__DIR__ . '/page.php');
+
+class TeacherPage extends Page
+{
+    protected function content($props, $db, $user)
+    { ?>
   
   <div class="form-group">
   <script>
@@ -79,4 +80,8 @@
     </table>
   </div>
   </div>
-<?php $page->build(); ?>
+  <?php
+    }
+}
+
+return new TeacherPage($db, $user, 'Teacher page');

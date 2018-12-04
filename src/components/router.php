@@ -25,6 +25,17 @@ class Router extends Component
                     $_SESSION = array();
                     session_destroy();
                     return self::Page($db);
+                case 'teacher':
+                    if($user){
+                        $user_role = $user->getRole();
+                        if($user_role == 0 || $user_role == 2) {
+                            return self::createPage($db, $user, 'teacher');
+                        } else {
+                            return self::createPage($db, null, 'login');
+                        }
+                    } else {
+                        return self::createPage($db, null, 'login');
+                    }
                 default:
                     return self::createPage($db, $user, $name);
             }
