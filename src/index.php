@@ -1,15 +1,10 @@
 <?php
-  require_once(realpath('./includes/page.php'));
-  require_once(realpath('./components/timeline.php'));
-  
-  $page = new Page();
-  $page->init('Main page');
-?>
 
-<h1>Roadmap</h1>
+require_once realpath('./components/component.php');
+require_once realpath('./components/router.php');
 
-<div class="timeline">
-  <?php Timeline($page->getDatabase()) ?>
-</div>
-
-<?php $page->build(); ?>
+$router = new Router();
+$props = [
+    'page'=>Component::GET('page')
+];
+Component::print($router, $props);
