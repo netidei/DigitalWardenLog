@@ -80,12 +80,12 @@
       $connection->query($command) or die("Error on query: $command");
 }
     // Load data
-    $tables = array('user', 'roadmap_event', 'event_subtitle');
-    foreach ($tables as $table)
+    $tables = ['user', 'roadmap_event', 'event_subtitle', 'flow', 'record', 'student', 'subject', 'teacher', 'time', 'visit'];
+    foreach ($tables as $alias => $table)
     {
-        $path = quotemeta(realpath(__DIR__ . "/data/$table.xml"));
-        $query = "LOAD XML LOCAL INFILE '$path' INTO TABLE `$dbName`.`$table`;";
-        $err = $connection->query($query) or die("Error on query: $query");
+      $path = addslashes(realpath(__DIR__ . '/data/' . (is_numeric($alias) ? $table : $alias) . '.xml'));
+      $query = "LOAD XML LOCAL INFILE '$path' INTO TABLE `$dbName`.`$table`;";
+      $err = $connection->query($query) or die("Error on query: $query");
     }
     // Delete this script
     unlink(realpath(__DIR__ . '/init.php'));
