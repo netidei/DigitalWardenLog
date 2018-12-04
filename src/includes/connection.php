@@ -152,13 +152,15 @@ class DB extends SQL
         return parent::run($query);
     }
 
-    public function delete($table, $condition = null)
-    {
-        $query = "DELETE FROM `$table`";
-        if ($condition) {
-            $query .= " WHERE $condition";
-        }
-        $query .= ';';
-        return parent::run($query);
+    public function delete ($table, $condition = null) {
+      $query = "DELETE FROM `$table`";
+      if ($condition) {
+        $query .= " WHERE $condition";
+      }
+      $query .= ';';
+      return parent::run($query);
     }
-}
+
+  }
+
+?>
