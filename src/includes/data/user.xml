@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rows>
     <row username="admin" password="$2y$10$bWfUr3eP6rb4LhkwQ0ukCOi8tO9U9ORwr5DiIV6TUsiBQPUF6S4TW" role="0" />
+    <row username="directorate" password="$2y$10$3pBLF4HrKuQaGgDvA4lECeNUCF8zDfN4kG2K8r9ERLKBx/BMtMy3C" role="1" />
+    <row username="teacher" password="$2y$10$3pBLF4HrKuQaGgDvA4lECeNUCF8zDfN4kG2K8r9ERLKBx/BMtMy3C" role="2" />
+    <row username="student" password="$2y$10$3pBLF4HrKuQaGgDvA4lECeNUCF8zDfN4kG2K8r9ERLKBx/BMtMy3C" role="3" />
 </rows>
