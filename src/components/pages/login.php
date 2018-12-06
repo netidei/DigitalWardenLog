@@ -53,4 +53,4 @@ class LoginPage extends Page
     }
 }
 
-return new LoginPage($db, $user, 'Login page');
+return new LoginPage($db, $user, $data);

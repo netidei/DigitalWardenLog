@@ -84,4 +84,4 @@ class TeacherPage extends Page
     }
 }
 
-return new TeacherPage($db, $user, 'Teacher page');
+return new TeacherPage($db, $user, $data);

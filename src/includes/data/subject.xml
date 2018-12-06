@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rows>
+  <row  id="1"
+        name="Проектирование ИС"
+  />
+  <row  id="2"
+        name="Реинжениринг"
+  />
+  <row  id="3"
+        name="Основа инженирии знаний"
+  />
+<rows/>

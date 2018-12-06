@@ -37,4 +37,4 @@ class MainPage extends Page
     }
 }
 
-return new MainPage($db, $user, 'Home page');
+return new MainPage($db, $user, $data);
