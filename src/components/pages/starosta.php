@@ -32,6 +32,12 @@ class StarostaPage extends Page
         <option disabled value="" selected="">Выбрать..</option> 
         <option value="value1">Проетирование информационных систем</option> 
         <option value="value2">Психология и педагогика</option>
+        <?php
+        $res =$db->select("subject","*");
+        while ($row = $res->row()) {
+          echo ("<option value=\"".$row[0]."\">".$row[1]."</option>");
+        }
+      ?>
       </select>
     </div>
     <div class="column col-3">
