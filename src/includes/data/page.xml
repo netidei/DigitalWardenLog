@@ -5,4 +5,5 @@
   <row id="3" name="logout" title="Logout page" role="2" access_type="0" />
   <row id="4" name="main" title="Digital Journal" role="3" access_type="1" />
   <row id="5" name="register" title="Register page" role="1" access_type="0" />
+  <row id="6" name="directorate" title="Directorate page" role="4" access_type="1" />
 </rows>

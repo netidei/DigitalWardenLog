@@ -1,6 +1,6 @@
 <?php
   $alwaysUpdate = false;
-  $currentVersion = 1;
+  $currentVersion = 2;
   $version = 0;
   $doUpdate = true;
 try {

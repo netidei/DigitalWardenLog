@@ -11,8 +11,9 @@ class DirectoratePage extends Page
             $role = self::POST('role');
             if ($username && $password) {
                 User::addUser($db, $username, $password, $role);
-                header('location: index.php?page=login');
+                header('location: index.php?page=directorate');
             }
+
         }
         ?>
         <h1>Add new user</h1>
@@ -33,14 +34,28 @@ class DirectoratePage extends Page
                     <option value="3">Староста</option>
                 </select>
             </div>
-            <input class="btn btn-primary" type="submit" value="Register">
+            <input class="btn btn-primary" type="submit" value="Register"> <br>
         </form>
-
-        $res = $db -> count();
-        echo $res;
-
         <?php
+    
+
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $name = self::POST('name');
+                $db->delete("user","username=\"".$name."\"");
+                header('location: index.php?page=directorate');
+        }
+        $res = $db->select('user','*');
+        while ($row=$res->row()){
+            echo $row[1];
+        ?>
+        <input class="form-input" type="text" name="name" value=<?php echo $row[1]?>>
+        <form method="POST">
+        <input class="btn btn-primary" type="submit" value="Delete"> <br>
+        </form>
+        <?php
+        
+        }
     }
 }
-
-return new DirectoratePage($db, $user, $data);
+return new DirectoratePage($db, $user, $data); 
