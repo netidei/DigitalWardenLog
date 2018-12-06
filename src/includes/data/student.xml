@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rows>
+  <row  id="1"
+        name="Ivan"
+        group="1"
+  />
+  <row  id="2"
+        name="Andrew"
+        group="1"
+  />
+  <row  id="3"
+        name="Tatyana"
+        group="2"
+  />
+</rows>

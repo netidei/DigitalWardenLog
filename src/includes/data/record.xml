@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rows>
+  <row  id="1"
+        subject="1"
+        time="2"
+        date="2018-12-05"
+        teacher="1"
+        description="Доклад по курсовой"
+        approved="0"
+        was_it="0"
+        reason=""
+        type="0"
+  />
+  <row  id="2"
+        subject="2"
+        time="2"
+        date="2018-12-04"
+        teacher="1"
+        description="Вопросы к экзамену"
+        approved="0"
+        was_it="0"
+        reason=""
+        type="0"
+  />
+<rows/>
