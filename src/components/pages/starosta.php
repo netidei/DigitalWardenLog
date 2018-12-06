@@ -76,6 +76,14 @@ class StarostaPage extends Page
          </tr>
       </thead>
       <tbody>
+
+<?php
+        $res =$db->select("student","(id,name)","(group.id=student.group,user.id=group.user)");
+        while ($row = $res->row()) {
+          echo ("<option value=\"".$row[0]."\">".$row[1]."</option>");
+        }
+      ?>
+
         <tr>
           <th width="100" scope="row">1</th>
           <td>Иван Иванов</td>
