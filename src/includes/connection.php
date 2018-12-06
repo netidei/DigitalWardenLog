@@ -2,6 +2,21 @@
 
 class QueryResult
 {
+
+    public static function dataToArray($data)
+    {
+        $array = array();
+        while ($row = $data->fetch_row()) {
+            $len = count($row);
+            $rowArr = array();
+            for ($j = 0; $j < $len; ++$j) {
+                array_push($rowArr, $row[$j]);
+            }
+            array_push($array, $rowArr);
+        }
+        return $array;
+    }
+
     private $data;
 
     public function __construct($query)
@@ -21,7 +36,7 @@ class QueryResult
 
     public function toArray()
     {
-        return SQL::dataToArray($this->data);
+        return self::dataToArray($this->data);
     }
 }
 
@@ -31,20 +46,6 @@ class SQL
     private const USER = 'root';
     private const PASSWORD = '';
     private const DATABASE = 'digital_journal';
-
-    public static function dataToArray($data)
-    {
-        $array = array();
-        while ($row = self::getRow($data)) {
-            $len = count($row);
-            $rowArr = array();
-            for ($j = 0; $j < $len; ++$j) {
-                array_push($rowArr, $row[$j]);
-            }
-            array_push($array, $rowArr);
-        }
-        return $array;
-    }
 
     protected $connection;
 
@@ -152,15 +153,13 @@ class DB extends SQL
         return parent::run($query);
     }
 
-    public function delete ($table, $condition = null) {
-      $query = "DELETE FROM `$table`";
-      if ($condition) {
-        $query .= " WHERE $condition";
-      }
-      $query .= ';';
-      return parent::run($query);
+    public function delete($table, $condition = null)
+    {
+        $query = "DELETE FROM `$table`";
+        if ($condition) {
+            $query .= " WHERE $condition";
+        }
+        $query .= ';';
+        return parent::run($query);
     }
-
-  }
-
-?>
+}
