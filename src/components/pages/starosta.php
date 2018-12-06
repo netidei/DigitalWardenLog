@@ -17,21 +17,18 @@ class StarostaPage extends Page
       <label class="form-label"  for="validationDefault02">№ пары</label>
       <select name="date" class="form-select form-input" required> <!--Supplement an id here instead of using 'name'-->
         <option disabled value="" selected="">Выбрать..</option> 
-        <option value="value1">1</option> 
-        <option value="value2">2</option>
-        <option value="value3">3</option>
-        <option value="value4">4</option>
-        <option value="value5">5</option>
-        <option value="value6">6</option>
-        <option value="value7">7</option>
+        <?php
+        $res =$db->select("time","*");
+        while ($row = $res->row()) {
+          echo ("<option value=\"".$row[0]."\">".$row[0]." : ".$row[1]." - ".$row[2]."</option>");
+        }
+      ?>
     </select> 
     </div>
     <div class="column col-5">
       <label class="form-label"  for="validationDefaultUsername">Предмет</label>
       <select name="subject" class="form-select form-input" required> <!--Supplement an id here instead of using 'name'-->
         <option disabled value="" selected="">Выбрать..</option> 
-        <option value="value1">Проетирование информационных систем</option> 
-        <option value="value2">Психология и педагогика</option>
         <?php
         $res =$db->select("subject","*");
         while ($row = $res->row()) {

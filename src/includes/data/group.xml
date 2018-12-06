@@ -8,7 +8,7 @@
         academic_degree="Бакалавр"
         course="4"
         form="Очная"
-        user=""
+        user="4"
   />
   <row  id="2"
         number="147б"
