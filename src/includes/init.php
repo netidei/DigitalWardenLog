@@ -34,7 +34,7 @@ if ($doUpdate) {
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;',
     // Page
     'CREATE TABLE `page` (
-        `id` INT NOT NULL ,
+        `id` INT NOT NULL AUTO_INCREMENT ,
         `name` VARCHAR(16) NOT NULL ,
         `title` VARCHAR(32) NOT NULL ,
         `role` INT NOT NULL ,
@@ -43,14 +43,14 @@ if ($doUpdate) {
       ) ENGINE = InnoDB;',
     // Access_list table
     'CREATE TABLE `access_list` (
-        `id` INT NOT NULL ,
+        `id` INT NOT NULL AUTO_INCREMENT ,
         `page` INT NOT NULL ,
         `role` INT NOT NULL ,
         PRIMARY KEY (`id`)
       ) ENGINE = InnoDB;',
     // Record table
     'CREATE TABLE `record` (
-        `id` INT NOT NULL ,
+        `id` INT NOT NULL AUTO_INCREMENT ,
         `subject` INT NOT NULL ,
         `time` INT NOT NULL ,
         `date` DATE NOT NULL ,
@@ -64,33 +64,33 @@ if ($doUpdate) {
       ) ENGINE = InnoDB;',
     // Flow table
     'CREATE TABLE `flow` (
-        `id` INT NOT NULL ,
+        `id` INT NOT NULL AUTO_INCREMENT ,
         `group` INT NOT NULL ,
         `record` INT NOT NULL ,
         PRIMARY KEY (`id`)
       ) ENGINE = InnoDB;',
     // Subject table
     'CREATE TABLE `subject` (
-        `id` INT NOT NULL ,
+        `id` INT NOT NULL AUTO_INCREMENT ,
         `name` VARCHAR(256) NOT NULL ,
         PRIMARY KEY (`id`)
       ) ENGINE = InnoDB;',
     // Time table
     'CREATE TABLE `time` (
-        `id` INT NOT NULL ,
+        `id` INT NOT NULL AUTO_INCREMENT ,
         `time_begin` TIME NOT NULL ,
         `time_end` TIME NOT NULL ,
         PRIMARY KEY (`id`)
       ) ENGINE = InnoDB;',
     // Teacher table
     'CREATE TABLE `teacher` (
-        `id` INT NOT NULL ,
+        `id` INT NOT NULL AUTO_INCREMENT ,
         `name` VARCHAR(256) NOT NULL ,
         PRIMARY KEY (`id`)
       ) ENGINE = InnoDB;',
     // Visit table
     'CREATE TABLE `visit` (
-        `id` INT NOT NULL ,
+        `id` INT NOT NULL AUTO_INCREMENT ,
         `record` INT NOT NULL ,
         `student` INT NOT NULL ,
         `mark` BOOLEAN NOT NULL ,
@@ -99,9 +99,22 @@ if ($doUpdate) {
       ) ENGINE = InnoDB;',
     // Student table
     'CREATE TABLE `student` (
-        `id` INT NOT NULL ,
+        `id` INT NOT NULL AUTO_INCREMENT ,
         `name` VARCHAR(256) NOT NULL ,
         `group` INT NOT NULL ,
+        PRIMARY KEY (`id`)
+      ) ENGINE = InnoDB;',
+    // Group table
+    'CREATE TABLE `group` (
+        `id` INT NOT NULL AUTO_INCREMENT ,
+        `number` INT NOT NULL ,
+        `faculty` VARCHAR(256) NOT NULL ,
+        `year` YEAR NOT NULL ,
+        `study_direction` VARCHAR(256) NOT NULL ,
+        `academic_degree` VARCHAR(256) NOT NULL ,
+        `course` INT NOT NULL ,
+        `form` VARCHAR(256) NOT NULL ,
+        `user` INT NOT NULL ,
         PRIMARY KEY (`id`)
       ) ENGINE = InnoDB;',
     // Roadmap_event table
@@ -114,7 +127,7 @@ if ($doUpdate) {
         $connection->query($command) or die("Error on query: $command");
     }
     // Load data
-    $tables = ['user', 'page', 'access_list', 'roadmap_event', 'event_subtitle', 'flow', 'record', 'student', 'subject', 'teacher', 'time', 'visit'];
+    $tables = ['user', 'page', 'access_list', 'roadmap_event', 'event_subtitle', 'flow', 'record', 'student', 'subject', 'teacher', 'time', 'visit', 'group'];
     foreach ($tables as $alias => $table) {
         $path = addslashes(realpath(__DIR__ . '/data/' . (is_numeric($alias) ? $table : $alias) . '.xml'));
         $query = "LOAD XML LOCAL INFILE '$path' INTO TABLE `$dbName`.`$table`;";
